@@ -2,10 +2,10 @@
 $config = include_once('config.php');
 
 // 資料庫連接設置
-$servername = $config('DB_SERVERNAME');
-$username = $config('DB_USERNAME');
-$password = $config('DB_PASSWORD');
-$dbname = $config('DB_NAME');
+$servername = $config['DB_SERVERNAME'];
+$username = $config['DB_USERNAME'];
+$password = $config['DB_PASSWORD'];
+$dbname = $config['DB_NAME'];
 
 // 創建連接
 $conn = new mysqli($servername, $username, $password, $dbname);
