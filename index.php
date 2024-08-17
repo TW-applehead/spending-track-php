@@ -50,14 +50,10 @@ while ($account = $result->fetch_assoc()) {
     $food_behalf_sum = $food_behalf_expense - $food_behalf_income;
     $entertain_behalf_sum = $entertain_behalf_expense - $entertain_behalf_income;
 
-    // 取當月餘額
+    // 計算餘額差異
     $account_balance = getBalance($conn, $account_id, $time);
-
-    // 取隔月餘額
     $next_month = DateTime::createFromFormat('Ym', $time)->modify('+1 month')->format('Ym');
     $next_account_balance = getBalance($conn, $account_id, $next_month);
-
-    // 計算餘額差異
     if ($next_account_balance && $account_balance) {
         $balance_difference = $next_account_balance - $account_balance;
         $account['balance_difference'] = true;
@@ -72,8 +68,8 @@ while ($account = $result->fetch_assoc()) {
     } else {
         $account['quota'] = $balance_difference + $account['income_sum'] - $account['expense_sum'] - $food_behalf_sum + $entertain_behalf_sum;
     }
-
     $account['expenses'] = getExpenses($conn, $account_id, $time);
+    $account['account_balance'] = $account_balance;
 
     $accounts[] = $account;
 }
@@ -189,14 +185,27 @@ function getExpenses($conn, $account_id, $time) {
                 <input type="text" class="form-control" id="description" name="description" value="">
             </div>
 
-            <button type="submit" class="btn btn-primary mx-auto">提交</button>
+            <button type="submit" class="btn btn-primary mx-auto">儲存</button>
         </form>
     </div>
     <div class="row mb-5">
         <?php foreach ($accounts as $account): ?>
             <div class="col-md-6 text-center mt-5">
-                <div class="text-center font-weight-bold mb-3" style="font-size: 1.2rem;">
-                    <?php echo htmlspecialchars($account['name']); ?>
+                <div class="table-title">
+                    <div class="font-weight-bold align-self-center mb-2"><?php echo htmlspecialchars($account['name']); ?></div>
+                    <div class="d-flex align-items-center mb-2 float-right">
+                        <label for="balance_<?php echo htmlspecialchars($account['id']); ?>" class="mb-0 mr-2 small">月結餘額</label>
+                        <input type="number" 
+                        id="balance_<?php echo htmlspecialchars($account['id']); ?>" 
+                        name="balance_<?php echo htmlspecialchars($account['id']); ?>" 
+                        value="<?php echo htmlspecialchars($account['account_balance'] ?? ''); ?>" 
+                        class="form-control w-auto text-center">
+                        <button type="submit" class="btn btn-dark updateBalance"
+                                data-account-id="<?php echo htmlspecialchars($account['id']); ?>"
+                                data-time="<?php echo $time; ?>">
+                            更新
+                        </button>
+                    </div>
                 </div>
                 <table class="table shadow">
                     <thead>
@@ -399,9 +408,32 @@ function getExpenses($conn, $account_id, $time) {
                 }
             });
         });
+
+        $('.updateBalance').on('click', function() {
+            $.ajax({
+                url: "updateBalance.php",
+                type: 'POST',
+                data: {
+                    account_id: $(this).data('account-id'),
+                    time: $(this).data('time'),
+                    balance: $('input[name="balance_' + $(this).data('account-id') + '"]').val(),
+                },
+                success: function(response) {
+                    alert(response);
+                    location.reload();
+                },
+                error: function(errors) {
+                    console.error(errors);
+                }
+            });
+        });
     });
 </script>
 <style>
+.table-title {
+    font-size: 1.2rem;
+}
+.table-title,
 .form-container,
 table.table {
     max-width: 95%;
