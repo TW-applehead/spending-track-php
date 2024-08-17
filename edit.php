@@ -1,9 +1,11 @@
 <?php
+$config = include_once('config.php');
+
 // 資料庫連接設置
-$servername = "sql110.infinityfree.com";
-$username = "if0_37119399";
-$password = "9RvhVROq9LsgFp";
-$dbname = "if0_37119399_spending_track";
+$servername = $config('DB_SERVERNAME');
+$username = $config('DB_USERNAME');
+$password = $config('DB_PASSWORD');
+$dbname = $config('DB_NAME');
 
 // 創建連接
 $conn = new mysqli($servername, $username, $password, $dbname);
