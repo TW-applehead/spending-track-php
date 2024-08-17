@@ -195,12 +195,12 @@ function getExpenses($conn, $account_id, $time) {
                     <div class="font-weight-bold align-self-center mb-2"><?php echo htmlspecialchars($account['name']); ?></div>
                     <div class="d-flex align-items-center mb-2 float-right">
                         <label for="balance_<?php echo htmlspecialchars($account['id']); ?>" class="mb-0 mr-2 small">月結餘額</label>
-                        <input type="number" 
+                        <input type="number" style="width: 120px;"
                         id="balance_<?php echo htmlspecialchars($account['id']); ?>" 
                         name="balance_<?php echo htmlspecialchars($account['id']); ?>" 
                         value="<?php echo htmlspecialchars($account['account_balance'] ?? ''); ?>" 
-                        class="form-control w-auto text-center">
-                        <button type="submit" class="btn btn-dark updateBalance"
+                        class="form-control text-center">
+                        <button type="submit" class="btn btn-dark btn-sm updateBalance"
                                 data-account-id="<?php echo htmlspecialchars($account['id']); ?>"
                                 data-time="<?php echo $time; ?>">
                             更新
