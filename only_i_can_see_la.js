@@ -10,6 +10,17 @@ $(document).ready(function() {
         }
     });
 
+    $('#editForm input[name="account_id"]').on('change', function() {
+        let account = $(this).val();
+        let another_account = 1;
+        if (account == 1) {
+            another_account = 2;
+        }
+        $('div[class*="otherAccountYes"]').show();
+        $('.otherAccountYes' + account).hide();
+        $('#otherAccountYes' + another_account).prop('checked', true);
+    });
+
     $('.btn-edit-record').on('click', function() {
         let id = $(this).data('id');
         let accountId = $(this).data('account-id');
@@ -54,28 +65,13 @@ $(document).ready(function() {
         }
     });
 
-    $('#saveInsert').on('click', function() {
-        var formData = $('#insertForm').serialize();
+    $('#saveInsert, #saveEdit').on('click', function() {
+        let target = $(this).data('target');
+        let formData = $('#' + target + 'Form').serialize();
+        let url = target + ".php";
 
         $.ajax({
-            url: "insert.php",
-            type: 'POST',
-            data: formData,
-            success: function(response) {
-                alert(response);
-                location.reload();
-            },
-            error: function(errors) {
-                console.error(errors);
-            }
-        });
-    });
-
-    $('#saveChanges').on('click', function() {
-        var formData = $('#editForm').serialize();
-
-        $.ajax({
-            url: "edit.php",
+            url: url,
             type: 'POST',
             data: formData,
             success: function(response) {
