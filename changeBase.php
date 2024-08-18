@@ -29,8 +29,11 @@ $time = $_GET['time'] ?? date("Ym");
 $amount = $conn->real_escape_string($amount);
 $account_id = $conn->real_escape_string($account_id);
 $time = $conn->real_escape_string($time);
+$now = new DateTime('now', new DateTimeZone('Asia/Taipei'));
+$now = $now->format('Y-m-d H:i:s');
 
-$sql = "UPDATE account_balances SET balance = balance + '$amount' WHERE account_id = '$account_id' AND time <= '$time'";
+$sql = "UPDATE account_balances SET balance = balance + '$amount', updated_at = '$now'
+        WHERE account_id = '$account_id' AND time <= '$time'";
 if ($conn->query($sql) === TRUE) {
     echo "帳戶餘額已加 " . $amount;
 } else {

@@ -32,10 +32,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $is_cost = $conn->real_escape_string($other_account);
     $expense_time = $conn->real_escape_string($expense_time);
     $notes = $conn->real_escape_string($notes);
+    $now = new DateTime('now', new DateTimeZone('Asia/Taipei'));
+    $now = $now->format('Y-m-d H:i:s');
 
     // 構建 SQL 插入語句
     $sql = "UPDATE expenses
-            SET amount = '$amount', account_id = '$account_id', is_expense = '$is_expense', other_account = '$other_account', expense_time = '$expense_time', notes = '$notes'
+            SET amount = '$amount', account_id = '$account_id', is_expense = '$is_expense', other_account = '$other_account',
+            expense_time = '$expense_time', notes = '$notes', updated_at = '$now'
             WHERE id = '$id'";
 
     // 執行 SQL 插入語句

@@ -24,6 +24,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $account_id = $conn->real_escape_string($account_id);
     $time = $conn->real_escape_string($time);
     $balance = $conn->real_escape_string($balance);
+    $now = new DateTime('now', new DateTimeZone('Asia/Taipei'));
+    $now = $now->format('Y-m-d H:i:s');
 
     // 檢查是否已有該時間的餘額紀錄
     $check_sql = "SELECT * FROM account_balances WHERE account_id = ? AND time = ?";
@@ -34,9 +36,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($result->num_rows > 0) {
         // 如果有紀錄，則進行更新操作
-        $update_sql = "UPDATE account_balances SET balance = ?, updated_at = NOW() WHERE account_id = ? AND time = ?";
+        $update_sql = "UPDATE account_balances SET balance = ?, updated_at = ? WHERE account_id = ? AND time = ?";
         $update_stmt = $conn->prepare($update_sql);
-        $update_stmt->bind_param("dis", $balance, $account_id, $time);
+        $update_stmt->bind_param("dsis", $balance, $now, $account_id, $time);
         if ($update_stmt->execute()) {
             echo "帳戶餘額已更新";
         } else {
