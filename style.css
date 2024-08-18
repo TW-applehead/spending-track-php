@@ -1,0 +1,14 @@
+.table-title {
+    font-size: 1.2rem;
+}
+.table-title,
+.form-container,
+table.table {
+    max-width: 95%;
+    margin: auto;
+}
+table.table th,
+table.table td {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}

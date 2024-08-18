@@ -122,13 +122,15 @@ function getExpenses($conn, $account_id, $time) {
         <script src="https://code.jquery.com/jquery-3.7.1.min.js"  integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="  crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        <script src="index.js" type="text/javascript"></script>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link rel="stylesheet" href="style.css">
     </head>
 <body>
 <div class="container">
     <div class="text-center mt-3">※刷卡 (當月不會扣 所以要記)</div>
     <div class="text-center">※台新代付 (直接算在該帳戶)</div>
-    <div class="text-center text-danger mb-3">※直接扣銀行的不要記</div>
+    <div class="text-center text-danger mb-3">※直接扣該帳戶的不要記</div>
     <div class="shadow p-3 form-container">
         <form action="insert.php" method="POST" class="row">
             <div class="form-group col-md-6">
@@ -193,9 +195,9 @@ function getExpenses($conn, $account_id, $time) {
             <div class="col-md-6 text-center mt-5">
                 <div class="table-title">
                     <div class="font-weight-bold align-self-center mb-2"><?php echo htmlspecialchars($account['name']); ?></div>
-                    <div class="d-flex align-items-center mb-2 float-right">
-                        <label for="balance_<?php echo htmlspecialchars($account['id']); ?>" class="mb-0 mr-2 small">月結餘額</label>
-                        <input type="number" style="width: 120px;"
+                    <div class="d-flex align-items-center mb-3 float-right">
+                        <label for="balance_<?php echo htmlspecialchars($account['id']); ?>" class="mb-0 mr-2 small">發薪前餘額</label>
+                        <input type="number" style="width: 120px; height: 32px;"
                         id="balance_<?php echo htmlspecialchars($account['id']); ?>" 
                         name="balance_<?php echo htmlspecialchars($account['id']); ?>" 
                         value="<?php echo htmlspecialchars($account['account_balance'] ?? ''); ?>" 
@@ -335,114 +337,4 @@ function getExpenses($conn, $account_id, $time) {
     </div>
 </div>
 </body>
-<script>
-    $(document).ready(function() {
-        $('#account').on('change', function() {
-            let account = $(this).val();
-            if (account == 1) {
-                $('.is-food-account').hide();
-                $('.is-entertain-account').show();
-            } else if (account == 2)  {
-                $('.is-food-account').show();
-                $('.is-entertain-account').hide();
-            }
-        });
-
-        $('.btn-edit-record').on('click', function() {
-            let id = $(this).data('id');
-            let accountId = $(this).data('account-id');
-            let amount = $(this).data('amount');
-            let isExpense = $(this).data('is-expense');
-            let expenseTime = $(this).data('expense-time');
-            let otherAccount = $(this).data('other-account');
-            let notes = $(this).data('notes');
-
-            // 填充表單欄位
-            $('#expenseId').val(id);
-            $('#editAmount').val(amount);
-            $('#editNotes').val(notes);
-            $('#expenseTime').val(expenseTime);
-            $('input[name="account_id"][value="' + accountId + '"]').prop('checked', true);
-            $('input[name="other_account"][value="' + otherAccount + '"]').prop('checked', true);
-            $('input[name="is_expense"][value="' + isExpense + '"]').prop('checked', true);
-            $('div[class*="otherAccount"]').show();
-            $('.otherAccountYes' + accountId).hide();
-
-            $('#editModal').modal('show');
-        });
-
-        $('.btn-del-record').on('click', function() {
-            if (confirm("確定刪除?")) {
-                $.ajax({
-                url: "delete.php",
-                type: 'POST',
-                data: {
-                    id: $(this).data('id')
-                },
-                success: function(response) {
-                    alert(response);
-                    location.reload();
-                },
-                error: function(errors) {
-                    console.error(errors);
-                }
-            });
-            } else {
-                return;
-            }
-        });
-
-        $('#saveChanges').on('click', function() {
-            var formData = $('#editForm').serialize();
-
-            $.ajax({
-                url: "edit.php",
-                type: 'POST',
-                data: formData,
-                success: function(response) {
-                    alert(response);
-                    location.reload();
-                },
-                error: function(errors) {
-                    console.error(errors);
-                }
-            });
-        });
-
-        $('.updateBalance').on('click', function() {
-            $.ajax({
-                url: "updateBalance.php",
-                type: 'POST',
-                data: {
-                    account_id: $(this).data('account-id'),
-                    time: $(this).data('time'),
-                    balance: $('input[name="balance_' + $(this).data('account-id') + '"]').val(),
-                },
-                success: function(response) {
-                    alert(response);
-                    location.reload();
-                },
-                error: function(errors) {
-                    console.error(errors);
-                }
-            });
-        });
-    });
-</script>
-<style>
-.table-title {
-    font-size: 1.2rem;
-}
-.table-title,
-.form-container,
-table.table {
-    max-width: 95%;
-    margin: auto;
-}
-table.table th,
-table.table td {
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-}
-</style>
 </html>
