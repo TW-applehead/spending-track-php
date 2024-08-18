@@ -132,7 +132,7 @@ function getExpenses($conn, $account_id, $time) {
     <div class="text-center">※台新代付 (直接算在該帳戶)</div>
     <div class="text-center text-danger mb-3">※直接扣該帳戶的不要記</div>
     <div class="shadow p-3 form-container">
-        <form action="insert.php" method="POST" class="row">
+        <form id="insertForm" class="row">
             <div class="form-group col-md-6">
                 <label for="amount">金額:</label>
                 <input class="form-control" type="number" id="amount" name="amount" required>
@@ -159,20 +159,20 @@ function getExpenses($conn, $account_id, $time) {
                 </div>
             </div>
 
-            <!-- 其他帳戶代付 -->
+            <!-- 其他帳戶代收付 -->
             <div class="form-group col-md-6">
-                <label>是否為其他帳戶代付？</label><br>
+                <label>是否為其他帳戶代收付？</label><br>
                 <div class="form-check form-check-inline">
                     <input class="form-check-input" type="radio" name="other_account" id="is-not-other-account" value="0" checked>
                     <label class="form-check-label" for="is_not_other_account">否</label>
                 </div>
                 <div class="form-check form-check-inline is-food-account" style="display: none">
                     <input class="form-check-input" type="radio" name="other_account" id="is-food-account" value="1">
-                    <label class="form-check-label" for="is_food_account">是，飲食代付</label>
+                    <label class="form-check-label" for="is_food_account">是，飲食代收付</label>
                 </div>
                 <div class="form-check form-check-inline is-entertain-account">
                     <input class="form-check-input" type="radio" name="other_account" id="is-entertain-account" value="2">
-                    <label class="form-check-label" for="is_entertain_account">是，娛樂代付</label>
+                    <label class="form-check-label" for="is_entertain_account">是，娛樂代收付</label>
                 </div>
             </div>
 
@@ -186,9 +186,10 @@ function getExpenses($conn, $account_id, $time) {
                 <label for="description">說明:</label>
                 <input type="text" class="form-control" id="description" name="description" value="">
             </div>
-
-            <button type="submit" class="btn btn-primary mx-auto">儲存</button>
         </form>
+        <div class="text-center">
+        <button type="button"" class="btn btn-primary" id="saveInsert">儲存</button>
+        </div>
     </div>
     <div class="row mb-5">
         <?php foreach ($accounts as $account): ?>
@@ -226,7 +227,7 @@ function getExpenses($conn, $account_id, $time) {
                                     </td>
                                     <td>
                                         <?php echo htmlspecialchars($expense['notes']) . ' '; ?>
-                                        <?php echo $expense['other_account'] == 0 ? '' : '(代付)'; ?>
+                                        <?php echo $expense['other_account'] == 0 ? '' : '(代收付)'; ?>
                                     </td>
                                     <td>
                                         <button class="btn btn-dark btn-sm btn-edit-record"
@@ -292,18 +293,18 @@ function getExpenses($conn, $account_id, $time) {
                             </div>
                         </div>
                         <div class="mb-3 d-flex">
-                            <label class="form-label">是否為代付</label>
+                            <label class="form-label">是否為代收付</label>
                             <div class="mx-3 otherAccountNo">
                                 <input type="radio" id="otherAccountNo" name="other_account" value="0">
                                 <label for="otherAccountNo">否</label>
                             </div>
                             <div class="mx-3 otherAccountYes1">
                                 <input type="radio" id="otherAccountYes1" name="other_account" value="1">
-                                <label for="otherAccountYes1">是 (飲食代付)</label>
+                                <label for="otherAccountYes1">是 (飲食代收付)</label>
                             </div>
                             <div class="mx-3 otherAccountYes2">
                                 <input type="radio" id="otherAccountYes2" name="other_account" value="2">
-                                <label for="otherAccountYes2">是 (娛樂代付)</label>
+                                <label for="otherAccountYes2">是 (娛樂代收付)</label>
                             </div>
                         </div>
                         <div class="mb-3 d-flex">

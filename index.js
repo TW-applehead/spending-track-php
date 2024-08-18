@@ -54,6 +54,23 @@ $(document).ready(function() {
         }
     });
 
+    $('#saveInsert').on('click', function() {
+        var formData = $('#insertForm').serialize();
+
+        $.ajax({
+            url: "insert.php",
+            type: 'POST',
+            data: formData,
+            success: function(response) {
+                alert(response);
+                location.reload();
+            },
+            error: function(errors) {
+                console.error(errors);
+            }
+        });
+    });
+
     $('#saveChanges').on('click', function() {
         var formData = $('#editForm').serialize();
 

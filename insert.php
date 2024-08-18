@@ -37,19 +37,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // 執行 SQL 插入語句
     if ($conn->query($sql) === TRUE) {
-        echo "新記錄已成功建立";
-        $conn->close();
-        header("Location: /index.php");
-        die();
+        echo "新增記錄成功";
     } else {
         echo "錯誤: " . $sql . "<br>" . $conn->error;
-        $conn->close();
-        header("Location: /index.php");
-        die();
     }
-
-    
 }
 
-
+$conn->close();
+exit();
 ?>
