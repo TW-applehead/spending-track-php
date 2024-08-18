@@ -18,7 +18,10 @@ $(document).ready(function() {
         }
         $('div[class*="otherAccountYes"]').show();
         $('.otherAccountYes' + account).hide();
-        $('#otherAccountYes' + another_account).prop('checked', true);
+
+        if (!$('#editForm #otherAccountNo').is(':checked')) {
+            $('#otherAccountYes' + another_account).prop('checked', true);
+        }
     });
 
     $('.btn-edit-record').on('click', function() {
