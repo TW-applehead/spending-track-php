@@ -1,18 +1,12 @@
 <?php
 $config = include_once('config.php');
-
-// 資料庫連接設置
-$servername = $config['DB_SERVERNAME'];
-$username = $config['DB_USERNAME'];
-$password = $config['DB_PASSWORD'];
-$dbname = $config['DB_NAME'];
+require 'modules/functions.php';
 
 // 創建連接
-$conn = new mysqli($servername, $username, $password, $dbname);
-if ($conn->connect_error) {
-    die("連接失敗: " . $conn->connect_error);
+$conn = connectDB($config);
+if ($conn === false) {
+    die("資料庫連接失敗");
 }
-$conn->set_charset("utf8mb4");
 
 // 檢查連接
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -36,14 +30,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $now = $now->format('Y-m-d H:i:s');
 
     // 構建 SQL 插入語句
-    $sql = "UPDATE expenses
-            SET amount = '$amount', account_id = '$account_id', is_expense = '$is_expense', other_account = '$other_account',
-            expense_time = '$expense_time', notes = '$notes', updated_at = '$now'
-            WHERE id = '$id'";
+    $sql = "UPDATE expenses SET amount = '$amount', account_id = '$account_id', is_expense = '$is_expense', " .
+           "other_account = '$other_account', expense_time = '$expense_time', notes = '$notes', updated_at = '$now' " .
+           "WHERE id = '$id'";
 
     // 執行 SQL 插入語句
     if ($conn->query($sql) === TRUE) {
-        echo "記錄修改成功";
+        $result = insertLog($conn, "/edit.php", $sql);
+        if ($result === TRUE) {
+            echo "記錄修改成功";
+        } else {
+            echo $result;
+        }
     } else {
         echo "錯誤: " . $sql . "<br>" . $conn->error;
     }

@@ -1,18 +1,12 @@
 <?php
 $config = include_once('config.php');
-
-// 資料庫連接設置
-$servername = $config['DB_SERVERNAME'];
-$username = $config['DB_USERNAME'];
-$password = $config['DB_PASSWORD'];
-$dbname = $config['DB_NAME'];
+require 'modules/functions.php';
 
 // 創建連接
-$conn = new mysqli($servername, $username, $password, $dbname);
-if ($conn->connect_error) {
-    die("連接失敗: " . $conn->connect_error);
+$conn = connectDB($config);
+if ($conn === false) {
+    die("資料庫連接失敗");
 }
-$conn->set_charset("utf8mb4");
 
 // 檢查連接
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -26,7 +20,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // 執行 SQL 插入語句
     if ($conn->query($sql) === TRUE) {
-        echo "記錄已成功刪除";
+        $result = insertLog($conn, "/delete.php", $sql);
+        if ($result === TRUE) {
+            echo "記錄已成功刪除";
+        } else {
+            echo $result;
+        }
     } else {
         echo "刪除失敗! " . $conn->error;
     }
