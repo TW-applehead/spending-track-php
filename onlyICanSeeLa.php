@@ -14,9 +14,7 @@
     </head>
     <body>
         <div class="container">
-            <div class="text-center mt-3">※刷卡 (當月不會扣 所以要記)</div>
-            <div class="text-center">※台新代付 (直接算在該帳戶)</div>
-            <div class="text-center text-danger mb-3">※直接扣該帳戶的不要記</div>
+            <div class="text-center mt-3 text-danger">※原則上不是直接扣該帳戶的都要記</div>
             <div class="shadow p-3 form-container">
                 <form id="insertForm" class="row">
                     <div class="form-group col-md-6">
