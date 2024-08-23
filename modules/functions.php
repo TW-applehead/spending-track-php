@@ -74,3 +74,13 @@ function getExpenses($conn, $account_id, $time) {
     }
     return $rows;
 }
+
+function getAllowance($conn, $account_id) {
+    $sql = "SELECT monthly_allowance FROM accounts WHERE id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $account_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+    return $row['monthly_allowance'] ?? 0;
+}

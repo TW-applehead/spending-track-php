@@ -9,6 +9,10 @@ if ($conn === false) {
 }
 
 $time = $_GET['time'] ?? date("Ym");
+if (!preg_match('/^\d{6}$/', $time)) {
+    exit();
+}
+$monthlySettle = $_GET['monthlySettle'] ?? false;
 
 // 執行 SQL 查詢，取得帳戶及其費用和收入的資料
 $sql = "SELECT accounts.*, 
@@ -24,6 +28,7 @@ $stmt->execute();
 $result = $stmt->get_result();
 
 $accounts = [];
+$settle_amount = [];
 while ($account = $result->fetch_assoc()) {
     $account_id = $account['id'];
 
@@ -48,7 +53,7 @@ while ($account = $result->fetch_assoc()) {
         $account['balance_difference'] = false;
     }
 
-    // 計算配額
+    // 計算月總花費
     if ($account_id == 1) {
         $account['quota'] = $balance_difference + $account['income_sum'] - $account['expense_sum'] + $food_behalf_sum - $entertain_behalf_sum;
     } else {
@@ -58,6 +63,39 @@ while ($account = $result->fetch_assoc()) {
     $account['account_balance'] = $account_balance;
 
     $accounts[] = $account;
+
+    if ($monthlySettle) {
+        $monthly_allowance = getAllowance($conn, $account_id);
+        $settle_amount[$account_id] = $monthly_allowance + $account['quota'];
+    }
+}
+
+if ($monthlySettle) {
+    $settle_sql = "UPDATE account_balances SET settle_amount = CASE " .
+                  "WHEN account_id = 1 THEN ? " .
+                  "WHEN account_id = 2 THEN ? " .
+                  "ELSE settle_amount END " .
+                  "WHERE account_id IN (1, 2)" .
+                  "AND time = ?";
+    $settle_stmt = $conn->prepare($settle_sql);
+    $settle_stmt->bind_param("iis", $settle_amount[1], $settle_amount[2], $time);
+    if ($settle_stmt->execute()) {
+        $log_sql = "UPDATE account_balances SET settle_amount = CASE " .
+                   "WHEN account_id = 1 THEN '$settle_amount[1]' " .
+                   "WHEN account_id = 2 THEN '$settle_amount[2]' " .
+                   "ELSE settle_amount END " .
+                   "WHERE account_id IN (1, 2)" .
+                   "AND time = '$time'";
+        $result = insertLog($conn, "/only_i_can_see_la.php", $log_sql);
+        if ($result === TRUE) {
+            echo $time . "月盈餘已更新";
+        } else {
+            echo $result;
+        }
+    } else {
+        echo "更新操作失敗，請再試一次";
+    }
+    $settle_stmt->close();
 }
 
 $conn->close();
