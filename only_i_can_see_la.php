@@ -64,5 +64,18 @@ while ($account = $result->fetch_assoc()) {
     $accounts[] = $account;
 }
 
+// 查詢piao紀錄
+$piao_sql = "SELECT 
+            SUM(CASE WHEN notes LIKE '代付漂%' THEN amount ELSE 0 END) AS paid_piao,
+            SUM(CASE WHEN notes LIKE '漂代付%' THEN amount ELSE 0 END) AS piao_paid
+            FROM expenses
+            WHERE expense_time = ?";
+$stmt = $conn->prepare($piao_sql);
+$stmt->bind_param("s", $time);
+$stmt->execute();
+$result = $stmt->get_result();
+$piao_records = $result->fetch_assoc();
+$stmt->close();
+
 $conn->close();
-return $accounts;
+return ['accounts' => $accounts, 'piao_records' => $piao_records];

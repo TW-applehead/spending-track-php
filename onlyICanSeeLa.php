@@ -1,4 +1,5 @@
-<?php $accounts = include('only_i_can_see_la.php'); ?>
+<?php $data = include('only_i_can_see_la.php'); ?>
+
 <!DOCTYPE html>
 <html lang="zh-Hant">
     <head>
@@ -77,7 +78,7 @@
                 </div>
             </div>
             <div class="row mb-5">
-                <?php foreach ($accounts as $account): ?>
+                <?php foreach ($data['accounts'] as $account): ?>
                     <div class="col-md-6 text-center mt-5">
                         <div class="table-title">
                             <div class="font-weight-bold align-self-center mb-2"><?php echo htmlspecialchars($account['name']); ?></div>
@@ -186,7 +187,10 @@
                     </div>
                     <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
                         <div class="card-body">
-                            1
+                            <div class="row">
+                                <div class="col-6">漂代付：<span style="color: red;"><?php echo $data['piao_records']['piao_paid']; ?></span></div>
+                                <div class="col-6">代付漂：<span style="color: red;"><?php echo $data['piao_records']['paid_piao']; ?></span></div>
+                            </div>
                         </div>
                     </div>
                 </div>
