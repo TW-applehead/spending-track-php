@@ -37,6 +37,15 @@ function getUserIP() {
     return $ip;
 }
 
+function checkUserIP($allowed_ip) {
+    $ip = getUserIP();
+    if (in_array($ip, $allowed_ip)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 function getNow() {
     $now = new DateTime('now', new DateTimeZone('Asia/Taipei'));
     return $now->format('Y-m-d H:i:s');

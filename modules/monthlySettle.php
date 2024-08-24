@@ -1,6 +1,10 @@
-<?php // 更新帳戶當月發薪前餘額
+<?php // 計算當月盈餘
 $config = include_once('../config.php');
 require 'functions.php';
+
+if (!checkUserIP($config['ALLOWED_IP'])) {
+    die($config['NOT_ALLOWED_TEXT']);
+}
 
 $time = $_POST['time'];
 $food_expense = $_POST['food_expense'];
@@ -49,8 +53,8 @@ if (preg_match('/^\d{6}$/', $time) && preg_match('/^-?\d+$/', $food_expense) && 
         echo "更新操作失敗，請再試一次";
     }
     $settle_stmt->close();
+    $conn->close();
 }
 
-$conn->close();
 exit();
 ?>

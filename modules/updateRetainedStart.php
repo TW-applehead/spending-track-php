@@ -1,17 +1,21 @@
-<?php // 更新帳戶當月發薪前餘額
+<?php // 更新累積盈餘起始日期
 $config = include_once('../config.php');
 require 'functions.php';
 
-// 創建連接
-$conn = connectDB($config);
-if ($conn === false) {
-    die("資料庫連接失敗");
+if (!checkUserIP($config['ALLOWED_IP'])) {
+    die($config['NOT_ALLOWED_TEXT']);
 }
 
-// 檢查連接
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $account_id = $_POST['account_id'];
-    $retained_start = $_POST['retained_start'];
+$account_id = $_POST['account_id'];
+$retained_start = $_POST['retained_start'];
+
+// 檢查參數
+if (preg_match('/^\d+$/', $account_id) && preg_match('/^\d{6}$/', $retained_start)) {
+    // 創建連接
+    $conn = connectDB($config);
+    if ($conn === false) {
+        die("資料庫連接失敗");
+    }
 
     // 防止SQL注入的資料過濾
     $account_id = $conn->real_escape_string($account_id);
@@ -33,8 +37,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "更新操作失敗，請再試一次";
     }
     $update_stmt->close();
+    $conn->close();
 }
 
-$conn->close();
 exit();
 ?>

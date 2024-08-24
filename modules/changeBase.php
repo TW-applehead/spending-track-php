@@ -2,8 +2,13 @@
 $config = include_once('../config.php');
 require 'functions.php';
 
+if (!checkUserIP($config['ALLOWED_IP'])) {
+    die($config['NOT_ALLOWED_TEXT']);
+}
+
 $amount = $_POST['amount'];
 $account_id = $_POST['account_id'];
+
 if (preg_match('/^-?\d+$/', $amount) && preg_match('/^[12]$/', $account_id)) {
     // 創建連接
     $conn = connectDB($config);
@@ -31,8 +36,8 @@ if (preg_match('/^-?\d+$/', $amount) && preg_match('/^[12]$/', $account_id)) {
     }
 
     $conn->close();
-    exit();
 } else {
     echo "我不知道你做了什麼，反正你不能亂來";
-    exit();
 }
+
+exit();
