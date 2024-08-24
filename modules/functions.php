@@ -37,11 +37,13 @@ function getUserIP() {
     return $ip;
 }
 
-function checkUserIP($allowed_ip) {
+function checkUserIP($config) {
     $ip = getUserIP();
-    if (in_array($ip, $allowed_ip)) {
+    if (in_array($ip, $config['ALLOWED_IP'])) {
         return true;
     } else {
+        $conn = connectDB($config);
+        insertLog($conn, $_SERVER['REQUEST_URI'], "入侵警報！[" . $ip . "]嘗試更改你東西");
         return false;
     }
 }

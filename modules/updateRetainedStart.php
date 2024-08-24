@@ -2,7 +2,7 @@
 $config = include_once('../config.php');
 require 'functions.php';
 
-if (!checkUserIP($config['ALLOWED_IP'])) {
+if (!checkUserIP($config)) {
     die($config['NOT_ALLOWED_TEXT']);
 }
 
@@ -27,7 +27,7 @@ if (preg_match('/^\d+$/', $account_id) && preg_match('/^\d{6}$/', $retained_star
     $update_stmt->bind_param("ssi", $retained_start, $now, $account_id);
     if ($update_stmt->execute()) {
         $log_sql = "UPDATE accounts SET retained_start = '$retained_start', updated_at = '$now' WHERE id = '$account_id'";
-        $result = insertLog($conn, "/updateRetainedStart.php", $log_sql);
+        $result = insertLog($conn, $_SERVER['REQUEST_URI'], $log_sql);
         if ($result === TRUE) {
             echo "帳戶開始累積盈餘日期已更新為 " . $retained_start;
         } else {

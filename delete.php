@@ -2,7 +2,7 @@
 $config = include_once('config.php');
 require 'modules/functions.php';
 
-if (!checkUserIP($config['ALLOWED_IP'])) {
+if (!checkUserIP($config)) {
     die($config['NOT_ALLOWED_TEXT']);
 }
 
@@ -21,7 +21,7 @@ if (preg_match('/^\d+$/', $id)) {
 
     $sql = "DELETE FROM expenses WHERE id = " . $id;
     if ($conn->query($sql) === TRUE) {
-        $result = insertLog($conn, "/delete.php", $sql);
+        $result = insertLog($conn, $_SERVER['REQUEST_URI'], $sql);
         if ($result === TRUE) {
             echo "記錄已成功刪除";
         } else {

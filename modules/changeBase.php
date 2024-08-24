@@ -2,7 +2,7 @@
 $config = include_once('../config.php');
 require 'functions.php';
 
-if (!checkUserIP($config['ALLOWED_IP'])) {
+if (!checkUserIP($config)) {
     die($config['NOT_ALLOWED_TEXT']);
 }
 
@@ -25,7 +25,7 @@ if (preg_match('/^-?\d+$/', $amount) && preg_match('/^[12]$/', $account_id)) {
     $sql = "UPDATE account_balances SET balance = balance + '$amount', updated_at = '$now'
             WHERE account_id = '$account_id' AND time <= '$time'";
     if ($conn->query($sql) === TRUE) {
-        $result = insertLog($conn, "/changeBase.php", $sql);
+        $result = insertLog($conn, $_SERVER['REQUEST_URI'], $sql);
         if ($result === TRUE) {
             echo "帳戶餘額已加 " . $amount;
         } else {

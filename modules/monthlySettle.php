@@ -2,7 +2,7 @@
 $config = include_once('../config.php');
 require 'functions.php';
 
-if (!checkUserIP($config['ALLOWED_IP'])) {
+if (!checkUserIP($config)) {
     die($config['NOT_ALLOWED_TEXT']);
 }
 
@@ -43,7 +43,7 @@ if (preg_match('/^\d{6}$/', $time) && preg_match('/^-?\d+$/', $food_expense) && 
                    "ELSE settle_amount END " .
                    "WHERE account_id IN (1, 2)" .
                    "AND time = '$time'";
-        $result = insertLog($conn, "/monthlySettle.php", $log_sql);
+        $result = insertLog($conn, $_SERVER['REQUEST_URI'], $log_sql);
         if ($result === TRUE) {
             echo $time . "月盈餘已更新";
         } else {

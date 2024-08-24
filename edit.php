@@ -2,7 +2,7 @@
 $config = include_once('config.php');
 require 'modules/functions.php';
 
-if (!checkUserIP($config['ALLOWED_IP'])) {
+if (!checkUserIP($config)) {
     die($config['NOT_ALLOWED_TEXT']);
 }
 
@@ -40,7 +40,7 @@ if (preg_match('/^\d+$/', $id) && preg_match('/^\d+$/', $amount) && preg_match('
 
     // 執行 SQL 插入語句
     if ($conn->query($sql) === TRUE) {
-        $result = insertLog($conn, "/edit.php", $sql);
+        $result = insertLog($conn, $_SERVER['REQUEST_URI'], $sql);
         if ($result === TRUE) {
             echo "記錄修改成功";
         } else {

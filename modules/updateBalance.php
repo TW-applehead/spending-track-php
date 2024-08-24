@@ -2,7 +2,7 @@
 $config = include_once('../config.php');
 require 'functions.php';
 
-if (!checkUserIP($config['ALLOWED_IP'])) {
+if (!checkUserIP($config)) {
     die($config['NOT_ALLOWED_TEXT']);
 }
 
@@ -38,7 +38,7 @@ if (preg_match('/^\d+$/', $account_id) && preg_match('/^\d{6}$/', $time) && preg
         $update_stmt->bind_param("dsis", $balance, $now, $account_id, $time);
         if ($update_stmt->execute()) {
             $log_sql = "UPDATE account_balances SET balance = '$balance' WHERE account_id = '$account_id' AND time = '$time'";
-            $result = insertLog($conn, "/updateBalance.php", $log_sql);
+            $result = insertLog($conn, $_SERVER['REQUEST_URI'], $log_sql);
             if ($result === TRUE) {
                 echo "帳戶餘額已更新為 " . $balance;
             } else {
@@ -55,7 +55,7 @@ if (preg_match('/^\d+$/', $account_id) && preg_match('/^\d{6}$/', $time) && preg
         $insert_stmt->bind_param("isd", $account_id, $time, $balance);
         if ($insert_stmt->execute()) {
             $log_sql = "INSERT INTO account_balances (account_id, time, balance) VALUES ('$account_id', '$time', '$balance')";
-            $result = insertLog($conn, "/updateBalance.php", $log_sql);
+            $result = insertLog($conn, $_SERVER['REQUEST_URI'], $log_sql);
             if ($result === TRUE) {
                 echo "帳戶餘額已新增";
             } else {
