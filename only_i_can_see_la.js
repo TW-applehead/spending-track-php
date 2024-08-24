@@ -25,7 +25,7 @@ $(document).ready(function() {
     $('#saveInsert, #saveEdit').on('click', function() {
         let target = $(this).data('target');
         if ($('#' + target + 'Form input[name="amount"]').val() < 0) {
-            alert("金額是負是怎樣? 重寫");
+            alert("金額是負的是怎樣? 重寫");
             return false;
         } else if ($('#' + target + 'Form input[name="amount"]').val() == 0) {
             alert("金額是0還紀錄幹嘛? 重寫");
@@ -89,6 +89,25 @@ $(document).ready(function() {
         });
     });
 
+    // 新增不納入收入的收入
+    $('.change-base').on('click', function() {
+        $.ajax({
+            url: "modules/changeBase.php",
+            type: 'POST',
+            data: {
+                amount: $('#collapseChangeBase input[name="change_base_amount"]').val(),
+                account_id: $('#collapseChangeBase select[name="account_id"]').val(),
+            },
+            success: function(response) {
+                alert(response);
+                location.reload();
+            },
+            error: function(errors) {
+                console.error(errors);
+            }
+        });
+    });
+
     // 動態修改新增紀錄表單的選項
     $('#account').on('change', function() {
         let account = $(this).val();
@@ -130,12 +149,10 @@ $(document).ready(function() {
         $('#editAmount').val(amount);
         $('#editNotes').val(notes);
         $('#expenseTime').val(expenseTime);
-        $('input[name="account_id"][value="' + accountId + '"]').prop('checked', true);
-        $('input[name="other_account"][value="' + otherAccount + '"]').prop('checked', true);
-        $('input[name="is_expense"][value="' + isExpense + '"]').prop('checked', true);
-        $('div[class*="otherAccount"]').show();
-        $('.otherAccountYes' + accountId).hide();
-
-        $('#editModal').modal('show');
+        $('#record-modal input[name="account_id"][value="' + accountId + '"]').prop('checked', true);
+        $('#record-modal input[name="other_account"][value="' + otherAccount + '"]').prop('checked', true);
+        $('#record-modal input[name="is_expense"][value="' + isExpense + '"]').prop('checked', true);
+        $('#record-modal div[class*="otherAccount"]').show();
+        $('#record-modal .otherAccountYes' + accountId).hide();
     });
 });

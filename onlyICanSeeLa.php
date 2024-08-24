@@ -10,7 +10,7 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
         <script src="only-i-can-see-la.js" type="text/javascript"></script>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="css/style.css">
     </head>
     <body>
         <div class="container">
@@ -95,7 +95,7 @@
                                 </button>
                             </div>
                         </div>
-                        <table class="table shadow">
+                        <table class="table table-striped shadow">
                             <thead>
                                 <tr>
                                     <th>金額</th>
@@ -169,6 +169,64 @@
                         </table>
                     </div>
                 <?php endforeach; ?>
+            </div>
+
+            <div id="accordion" class="mb-5">
+                <div class="card">
+                    <div class="card-header p-0" id="headingOne">
+                        <h5 class="mb-0">
+                            <button class="btn w-100 text-left py-3" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                漂
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                        <div class="card-body">
+                            1
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header p-0" id="headingTwo">
+                        <h5 class="mb-0">
+                            <button class="btn w-100 text-left py-3" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                計算月盈餘
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                        <div class="card-body">
+                            2
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header p-0" id="headingThree">
+                        <h5 class="mb-0">
+                            <button class="btn w-100 text-left py-3" data-toggle="collapse" data-target="#collapseChangeBase" aria-expanded="false" aria-controls="collapseChangeBase">
+                                新增不納入收入的收入
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="collapseChangeBase" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                        <div class="card-body text-center">
+                            <div class="row">
+                                <div class="col-8">
+                                    <input type="number" id="change-base-amount" name="change_base_amount" class="form-control">
+                                </div>
+                                <div class="col-4">
+                                    <select class="form-control" id="change-account" name="account_id" required>
+                                        <option value="1">飲食</option>
+                                        <option value="2" selected="selected">娛樂</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button class="btn btn-dark btn-sm mt-3 change-base">
+                                更新
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- 編輯視窗 -->
