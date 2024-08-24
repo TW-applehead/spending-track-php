@@ -50,9 +50,9 @@ $(document).ready(function() {
     });
 
     // 更新當月發薪前帳戶餘額
-    $('.updateBalance').on('click', function() {
+    $('.update-balance').on('click', function() {
         $.ajax({
-            url: "updateBalance.php",
+            url: "modules/updateBalance.php",
             type: 'POST',
             data: {
                 account_id: $(this).data('account-id'),

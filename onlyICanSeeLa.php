@@ -88,7 +88,7 @@
                                 name="balance_<?php echo htmlspecialchars($account['id']); ?>" 
                                 value="<?php echo htmlspecialchars($account['account_balance'] ?? ''); ?>" 
                                 class="form-control text-center">
-                                <button type="submit" class="btn btn-dark btn-sm updateBalance"
+                                <button type="submit" class="btn btn-dark btn-sm update-balance"
                                         data-account-id="<?php echo htmlspecialchars($account['id']); ?>"
                                         data-time="<?php echo $time; ?>">
                                     更新
