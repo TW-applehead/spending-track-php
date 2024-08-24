@@ -116,7 +116,7 @@
                                                 <?php echo $expense['other_account'] == 0 ? '' : '(代收付)'; ?>
                                             </td>
                                             <td>
-                                                <button class="btn btn-dark btn-sm btn-edit-record"
+                                                <button class="btn btn-sm btn-edit-record"
                                                         data-target="#record-modal" data-toggle="modal"
                                                         data-account-id="<?php echo htmlspecialchars($account['id']); ?>"
                                                         data-id="<?php echo htmlspecialchars($expense['id']); ?>"
@@ -125,11 +125,11 @@
                                                         data-is-expense="<?php echo htmlspecialchars($expense['is_expense']); ?>"
                                                         data-notes="<?php echo htmlspecialchars($expense['notes']); ?>"
                                                         data-expense-time="<?php echo htmlspecialchars($expense['expense_time']); ?>">
-                                                    編輯
+                                                    <img src="images/edit.svg" width="20" />
                                                 </button>
-                                                <button class="btn btn-danger btn-sm btn-del-record"
+                                                <button class="btn btn-sm btn-del-record"
                                                         data-id="<?php echo htmlspecialchars($expense['id']); ?>">
-                                                    刪除
+                                                    <img src="images/delete.svg" width="20" />
                                                 </button>
                                             </td>
                                         </tr>
@@ -205,7 +205,7 @@
                     </div>
                     <div id="collapseMonthlySettle" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
                         <div class="card-body text-center">
-                            <div class="d-flex">
+                            <div class="d-flex justify-content-center">
                                 <input type="text" id="monthly-settle" name="settle_time" class="form-control w-auto" value="<?php echo $time; ?>">
                                 <button class="btn btn-dark btn-sm monthly-settle">
                                     計算
@@ -224,20 +224,14 @@
                     </div>
                     <div id="collapseChangeBase" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
                         <div class="card-body text-center">
-                            <div class="row">
-                                <div class="col-8">
-                                    <input type="number" id="change-base-amount" name="change_base_amount" class="form-control" value="10000" step="100">
-                                </div>
-                                <div class="col-4">
-                                    <select class="form-control" id="change-account" name="account_id" required>
-                                        <option value="1">飲食</option>
-                                        <option value="2" selected="selected">娛樂</option>
-                                    </select>
-                                </div>
+                            <div class="d-flex justify-content-center">
+                                <input type="number" id="change-base-amount" name="change_base_amount" class="form-control w-50 mr-1" value="10000" step="100">
+                                <select class="form-control w-auto mr-1" id="change-account" name="account_id" required>
+                                    <option value="1">飲食</option>
+                                    <option value="2" selected="selected">娛樂</option>
+                                </select>
+                                <button class="btn btn-dark btn-sm change-base">更新</button>
                             </div>
-                            <button class="btn btn-dark btn-sm mt-3 change-base">
-                                更新
-                            </button>
                         </div>
                     </div>
                 </div>
