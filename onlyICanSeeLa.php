@@ -143,7 +143,11 @@
                                 <tr>
                                     <td colspan="2" class="border-bottom-0 text-right"><?php echo $account['balance_difference'] ? '本月花費' : '(尚無下個月餘額)'; ?></td>
                                     <td class="border-bottom-0 text-left">
-                                        <span style="color: <?php echo $account['quota'] >= 0 ? 'green' : 'red'; ?>;"><?php echo abs($account['quota']) ?></span>
+                                        <span id="monthly-expense-<?php echo $account['id']; ?>" data-value="<?php echo $account['quota'] ?>"
+                                              data-balance-difference="<?php echo $account['balance_difference']; ?>"
+                                              style="color: <?php echo $account['quota'] >= 0 ? 'green' : 'red'; ?>;">
+                                            <?php echo abs($account['quota']) ?>
+                                        </span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -153,7 +157,7 @@
                                                 id="retained-start<?php echo htmlspecialchars($account['id']); ?>" 
                                                 name="retained_start<?php echo htmlspecialchars($account['id']); ?>" 
                                                 value="<?php echo $account['retained_start'] ?>" 
-                                                class="form-control border-left-0 border-top-0 border-right-0 pt-0 pr-3">
+                                                class="form-control border-left-0 border-top-0 border-right-0 pt-0 pl-2 pr-3">
                                             <button class="btn p-0 update-retained-start" style="margin-left: -20px; margin-top: -4px;"
                                                     data-account-id="<?php echo htmlspecialchars($account['id']); ?>">
                                                 <img src="images/update.svg" width="20" />
@@ -189,14 +193,20 @@
                 <div class="card">
                     <div class="card-header p-0" id="headingTwo">
                         <h5 class="mb-0">
-                            <button class="btn w-100 text-left py-3" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            <button class="btn w-100 text-left py-3" data-toggle="collapse"
+                                    data-target="#collapseMonthlySettle" aria-expanded="false" aria-controls="collapseMonthlySettle">
                                 計算月盈餘
                             </button>
                         </h5>
                     </div>
-                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
-                        <div class="card-body">
-                            2
+                    <div id="collapseMonthlySettle" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                        <div class="card-body text-center">
+                            <div class="d-flex">
+                                <input type="text" id="monthly-settle" name="settle_time" class="form-control w-auto" value="<?php echo $time; ?>">
+                                <button class="btn btn-dark btn-sm monthly-settle">
+                                    計算
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>

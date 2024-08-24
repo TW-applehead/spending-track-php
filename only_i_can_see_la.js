@@ -108,6 +108,31 @@ $(document).ready(function() {
         });
     });
 
+    // 計算該月盈餘
+    $('.monthly-settle').on('click', function() {
+        if($('#monthly-expense-1').data('balance-difference') && $('#monthly-expense-2').data('balance-difference')) {
+            $.ajax({
+                url: "modules/monthlySettle.php",
+                type: 'POST',
+                data: {
+                    time: $('#collapseMonthlySettle input[name="settle_time"]').val(),
+                    food_expense: $('#monthly-expense-1').data('value'),
+                    entertain_expense: $('#monthly-expense-2').data('value'),
+                },
+                success: function(response) {
+                    alert(response);
+                    location.reload();
+                },
+                error: function(errors) {
+                    console.error(errors);
+                }
+            });
+        } else {
+            alert("有帳戶尚未填入隔月發薪前餘額");
+            return false;
+        }
+    });
+
     // 動態修改新增紀錄表單的選項
     $('#account').on('change', function() {
         let account = $(this).val();
