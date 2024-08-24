@@ -10,8 +10,7 @@ if (preg_match('/^-?\d+$/', $amount) && preg_match('/^[12]$/', $account_id)) {
     if ($conn === false) {
         die("資料庫連接失敗");
     }
-    // "SELECT MAX(time) as max_time FROM `account_balances` WHERE balance <> 0";
-    $time = $_GET['time'] ?? date("Ym");
+    $time = getMaxBalanceDate($conn, $account_id);
 
     // 防止SQL注入的資料過濾
     $amount = $conn->real_escape_string($amount);

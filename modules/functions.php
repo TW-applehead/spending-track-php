@@ -95,3 +95,13 @@ function getRetainedAmount($conn, $account_id, $time) {
     $row = $result->fetch_assoc();
     return $row['retained_amount'] ?? 0;
 }
+
+function getMaxBalanceDate($conn, $account_id) {
+    $sql = "SELECT MAX(time) as max_time FROM `account_balances` WHERE balance <> 0 AND account_id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $account_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+    return $row['max_time'] ?? date("Ym");
+}

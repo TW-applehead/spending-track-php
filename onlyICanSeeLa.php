@@ -212,7 +212,7 @@
                         <div class="card-body text-center">
                             <div class="row">
                                 <div class="col-8">
-                                    <input type="number" id="change-base-amount" name="change_base_amount" class="form-control">
+                                    <input type="number" id="change-base-amount" name="change_base_amount" class="form-control" value="10000" step="100">
                                 </div>
                                 <div class="col-4">
                                     <select class="form-control" id="change-account" name="account_id" required>
