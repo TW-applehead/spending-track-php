@@ -61,6 +61,7 @@ while ($account = $result->fetch_assoc()) {
     }
     $account['expenses'] = getExpenses($conn, $account_id, $time);
     $account['account_balance'] = $account_balance;
+    $account['retained_amount'] = getRetainedAmount($conn, $account_id, $account['retained_start']);
 
     $accounts[] = $account;
 

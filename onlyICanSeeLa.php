@@ -15,6 +15,7 @@
     <body>
         <div class="container">
             <div class="text-center mt-3 text-danger">※原則上不是直接扣該帳戶的都要記</div>
+            <div class="text-center mb-3">※固定花費不要記</div>
             <div class="shadow p-3 form-container">
                 <form id="insertForm" class="row">
                     <div class="form-group col-md-6">
@@ -72,7 +73,7 @@
                     </div>
                 </form>
                 <div class="text-center">
-                    <button type="button" class="btn btn-primary" data-target="insert" id="saveInsert">儲存</button>
+                    <button type="button" class="btn btn-primary mb-1" data-target="insert" id="saveInsert">儲存</button>
                 </div>
             </div>
             <div class="row mb-5">
@@ -140,8 +141,29 @@
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <td colspan="2"><?php echo $account['balance_difference'] ? '' : '(尚無下個月餘額)'; ?></td>
-                                    <td><span style="color: <?php echo $account['quota'] >= 0 ? 'green' : 'red'; ?>;"><?php echo abs($account['quota']) ?></span></td>
+                                    <td colspan="2" class="border-bottom-0 text-right"><?php echo $account['balance_difference'] ? '本月花費' : '(尚無下個月餘額)'; ?></td>
+                                    <td class="border-bottom-0 text-left">
+                                        <span style="color: <?php echo $account['quota'] >= 0 ? 'green' : 'red'; ?>;"><?php echo abs($account['quota']) ?></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" class="border-top-0 pt-0 pb-3">
+                                        <div class="justify-content-end align-items-center d-flex">
+                                            <input type="text" style="width: 90px; height: 26px; border-radius: unset; padding-bottom: 2px;"
+                                                id="retained-start<?php echo htmlspecialchars($account['id']); ?>" 
+                                                name="retained_start<?php echo htmlspecialchars($account['id']); ?>" 
+                                                value="<?php echo $account['retained_start'] ?>" 
+                                                class="form-control border-left-0 border-top-0 border-right-0 pt-0 pr-3">
+                                            <button class="btn p-0 update-retained-start" style="margin-left: -20px; margin-top: -4px;"
+                                                    data-account-id="<?php echo htmlspecialchars($account['id']); ?>">
+                                                <img src="images/update.svg" width="20" />
+                                            </button>
+                                            <div class="ml-2">至今累積利差</div>
+                                        </div>
+                                    </td>
+                                    <td class="border-top-0 pt-0 pb-3 text-left">
+                                        <span style="color: <?php echo $account['retained_amount'] >= 0 ? 'green' : 'red'; ?>;"><?php echo abs($account['retained_amount']) ?></span>
+                                    </td>
                                 </tr>
                             </tfoot>
                         </table>

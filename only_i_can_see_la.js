@@ -105,4 +105,23 @@ $(document).ready(function() {
             }
         });
     });
+
+    $('.update-retained-start').on('click', function() {
+        let account_id = $(this).data('account-id');
+        $.ajax({
+            url: "modules/updateRetainedStart.php",
+            type: 'POST',
+            data: {
+                account_id: account_id,
+                retained_start: $('input[name="retained_start' + account_id + '"]').val(),
+            },
+            success: function(response) {
+                alert(response);
+                location.reload();
+            },
+            error: function(errors) {
+                console.error(errors);
+            }
+        });
+    });
 });

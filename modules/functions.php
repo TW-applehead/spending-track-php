@@ -84,3 +84,14 @@ function getAllowance($conn, $account_id) {
     $row = $result->fetch_assoc();
     return $row['monthly_allowance'] ?? 0;
 }
+
+function getRetainedAmount($conn, $account_id, $time) {
+    $sql = "SELECT SUM(settle_amount) AS retained_amount FROM account_balances
+            WHERE account_id = ? AND time >= ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("is", $account_id, $time);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+    return $row['retained_amount'] ?? 0;
+}
