@@ -15,8 +15,17 @@
     </head>
     <body>
         <div class="container">
-            <div class="text-center mt-3 text-danger">※原則上不是直接扣該帳戶的都要記</div>
-            <div class="text-center mb-3">※固定花費不要記</div>
+            <div id="top"></div>
+            <?php if (!empty($data['has_invasion']) && $data['check_ip']): ?>
+            <a href="#headingZero" class="btn text-danger mt-3">
+                <img src="images/warning.png" class="w-75" />
+                <h2>請注意入侵訊息</h2>
+            </a>
+            <?php endif; ?>
+            <div class="text-center my-3" id="top">
+                ※原則上不是直接扣該帳戶的都要記<br>
+                ※固定花費不要記
+            </div>
             <div class="shadow p-3 form-container">
                 <form id="insertForm" class="row">
                     <div class="form-group col-md-6">
@@ -100,7 +109,7 @@
                             <thead>
                                 <tr>
                                     <th>金額</th>
-                                    <th>說明</th>
+                                    <th class="text-left">說明</th>
                                     <th>操作</th>
                                 </tr>
                             </thead>
@@ -111,7 +120,7 @@
                                             <td style="color: <?php echo $expense['is_expense'] ? 'red' : 'green'; ?>">
                                                 <?php echo ($expense['amount']); ?>
                                             </td>
-                                            <td>
+                                            <td class="text-left">
                                                 <?php echo htmlspecialchars($expense['notes']) . ' '; ?>
                                                 <?php echo $expense['other_account'] == 0 ? '' : '(代收付)'; ?>
                                             </td>
@@ -129,7 +138,7 @@
                                                 </button>
                                                 <button class="btn btn-sm btn-del-record"
                                                         data-id="<?php echo htmlspecialchars($expense['id']); ?>">
-                                                    <img src="images/delete.svg" width="20" />
+                                                    <img src="images/delete.svg" width="22" />
                                                 </button>
                                             </td>
                                         </tr>
@@ -177,6 +186,24 @@
             </div>
 
             <div id="accordion" class="mb-5">
+                <?php if (!empty($data['has_invasion']) && $data['check_ip']): ?>
+                <div class="card">
+                    <div class="card-header p-0" id="headingZero">
+                        <h5 class="mb-0">
+                            <button class="btn w-100 text-left text-danger py-3" data-toggle="collapse" data-target="#collapseZero" aria-expanded="true" aria-controls="collapseZero">
+                                入侵訊息
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="collapseZero" class="collapse" aria-labelledby="headingZero" data-parent="#accordion">
+                        <div class="card-body">
+                            <?php foreach ($data['has_invasion'] as $message): ?>
+                               <span class="text-danger"><?php echo $message['ip']; ?></span> 嘗試使用您的系統 <?php echo $message['times']; ?> 次<br>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                </div>
+                <?php endif; ?>
                 <div class="card">
                     <div class="card-header p-0" id="headingOne">
                         <h5 class="mb-0">

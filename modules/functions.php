@@ -37,15 +37,33 @@ function getUserIP() {
     return $ip;
 }
 
-function checkUserIP($config) {
+function checkUserIP($config, $text = null) {
     $ip = getUserIP();
     if (in_array($ip, $config['ALLOWED_IP'])) {
         return true;
     } else {
+        if (is_null($text)) {
+            $text = "入侵警報！[" . $ip . "] 嘗試更改你東西";
+        } else {
+            $text = "[" . $ip . "] " . $text;
+        }
         $conn = connectDB($config);
-        insertLog($conn, $_SERVER['REQUEST_URI'], "入侵警報！[" . $ip . "]嘗試更改你東西");
+        insertLog($conn, $_SERVER['REQUEST_URI'], $text);
         return false;
     }
+}
+
+function checkHasInvasion($conn) {
+    $sql = "SELECT COUNT(ip) as times, ip FROM logs WHERE sql_record LIKE '入侵警報%' GROUP BY ip";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $rows = [];
+    while ($row = $result->fetch_assoc()) {
+        $rows[] = $row;
+    }
+    $stmt->close();
+    return $rows;
 }
 
 function getNow() {

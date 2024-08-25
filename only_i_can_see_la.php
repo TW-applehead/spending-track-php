@@ -77,5 +77,9 @@ $result = $stmt->get_result();
 $piao_records = $result->fetch_assoc();
 $stmt->close();
 
+// 檢查有沒有其他人使用我系統
+$has_invasion = checkHasInvasion($conn);
+$check_ip = checkUserIP($config, "登入了您的系統");
+
 $conn->close();
-return ['accounts' => $accounts, 'piao_records' => $piao_records];
+return ['accounts' => $accounts, 'piao_records' => $piao_records, 'has_invasion' => $has_invasion, 'check_ip' => $check_ip];
