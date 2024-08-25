@@ -180,4 +180,12 @@ $(document).ready(function() {
         $('#record-modal div[class*="otherAccount"]').show();
         $('#record-modal .otherAccountYes' + accountId).hide();
     });
+
+    window.onscroll = function() {
+        if (document.body.scrollTop > 360 || document.documentElement.scrollTop > 360) {
+            $('.back-to-top').show();
+        } else {
+            $('.back-to-top').hide();
+        }
+    };
 });

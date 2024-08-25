@@ -264,6 +264,8 @@
                 </div>
             </div>
 
+            <a href="#top" class="back-to-top"><img src="images/up.svg" width="40" /></a>
+
             <!-- 編輯視窗 -->
             <div id="record-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" style="display: none;">
                 <div class="modal-dialog modal-dialog-centered" role="document">
