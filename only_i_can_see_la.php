@@ -26,6 +26,9 @@ $stmt->bind_param("s", $time);
 $stmt->execute();
 $result = $stmt->get_result();
 
+$next_month = getNextmonth($time);
+$prev_month = getPrevmonth($time);
+
 $accounts = [];
 while ($account = $result->fetch_assoc()) {
     $account_id = $account['id'];
@@ -35,13 +38,11 @@ while ($account = $result->fetch_assoc()) {
     $entertain_behalf_income = getBehalfSum($conn, 0, 2, $time);
     $food_behalf_expense = getBehalfSum($conn, 1, 1, $time);
     $entertain_behalf_expense = getBehalfSum($conn, 1, 2, $time);
-
     $food_behalf_sum = $food_behalf_expense - $food_behalf_income;
     $entertain_behalf_sum = $entertain_behalf_expense - $entertain_behalf_income;
 
     // 計算餘額差異
     $account_balance = getBalance($conn, $account_id, $time);
-    $next_month = getNextmonth($time);
     $next_account_balance = getBalance($conn, $account_id, $next_month);
     if ($next_account_balance && $account_balance) {
         $balance_difference = $next_account_balance - $account_balance;
@@ -82,4 +83,11 @@ $has_invasion = checkHasInvasion($conn);
 $check_ip = checkUserIP($config, "登入了您的系統");
 
 $conn->close();
-return ['accounts' => $accounts, 'piao_records' => $piao_records, 'has_invasion' => $has_invasion, 'check_ip' => $check_ip];
+return [
+    'accounts' => $accounts,
+    'piao_records' =>$piao_records,
+    'has_invasion' => $has_invasion,
+    'check_ip' => $check_ip,
+    'next_month' => $next_month,
+    'prev_month' => $prev_month,
+];

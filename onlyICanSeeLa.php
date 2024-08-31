@@ -22,9 +22,18 @@
                 <h2>請注意入侵訊息</h2>
             </a>
             <?php endif; ?>
-            <div class="text-center my-3" id="top">
+            <div class="justify-content-around align-items-center lead d-flex my-3">
+                <a href="?time=<?php echo $prev_month; ?>" class="btn d-flex align-items-center">
+                    <img src="images/left-arrow.svg" width="20" class="mr-1" />Prev
+                </a>
+                <?php echo $time; ?>月帳單
+                <a href="?time=<?php echo $next_month; ?>" class="btn d-flex align-items-center">
+                    Next<img src="images/left-arrow.svg" width="20" class="ml-1" style="transform: rotate(180deg);" />
+                </a>
+            </div>
+            <div class="text-center my-3">
                 ※原則上不是直接扣該帳戶的都要記<br>
-                ※固定花費不要記
+                ※固定花費不要記　※現金花費不要記
             </div>
             <div class="shadow p-3 form-container">
                 <form id="insertForm" class="row">

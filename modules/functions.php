@@ -72,9 +72,13 @@ function getNow() {
 }
 
 function getNextmonth($time) {
-    $date = DateTime::createFromFormat('Ym', $time);
-    $date->setDate($date->format('Y'), $date->format('m'), 1);
+    $date = DateTime::createFromFormat('Ymd', $time . '01');
     return $date->modify('+1 month')->format('Ym');
+}
+
+function getPrevmonth($time) {
+    $date = DateTime::createFromFormat('Ymd', $time . '01');
+    return $date->modify('-1 month')->format('Ym');
 }
 
 function getBehalfSum($conn, $is_expense, $other_account, $time) {
