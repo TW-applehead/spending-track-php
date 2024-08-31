@@ -28,8 +28,10 @@ $result = $stmt->get_result();
 
 $next_month = getNextmonth($time);
 $prev_month = getPrevmonth($time);
-
+$now_month = new DateTime('now', new DateTimeZone('Asia/Taipei'));
+$now_month = $now_month->format('Ym');
 $accounts = [];
+
 while ($account = $result->fetch_assoc()) {
     $account_id = $account['id'];
 
@@ -43,6 +45,7 @@ while ($account = $result->fetch_assoc()) {
 
     // 計算餘額差異
     $account_balance = getBalance($conn, $account_id, $time);
+    
     $next_account_balance = getBalance($conn, $account_id, $next_month);
     if ($next_account_balance && $account_balance) {
         $balance_difference = $next_account_balance - $account_balance;
@@ -90,4 +93,5 @@ return [
     'check_ip' => $check_ip,
     'next_month' => $next_month,
     'prev_month' => $prev_month,
+    'now_month' => $now_month,
 ];

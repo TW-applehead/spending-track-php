@@ -22,20 +22,33 @@
                 <h2>請注意入侵訊息</h2>
             </a>
             <?php endif; ?>
-            <div class="justify-content-around align-items-center lead d-flex my-3">
+            <div class="justify-content-between align-items-center lead d-flex my-3">
                 <a href="?time=<?php echo $prev_month; ?>" class="btn d-flex align-items-center">
-                    <img src="images/left-arrow.svg" width="20" class="mr-1" />Prev
+                    <img src="images/up.svg" width="20" class="mr-1" style="transform: rotate(-90deg);" />Prev
                 </a>
-                <?php echo $time; ?>月帳單
+                <div class="font-weight-bold"><?php echo $time; ?>月帳單</div>
                 <a href="?time=<?php echo $next_month; ?>" class="btn d-flex align-items-center">
-                    Next<img src="images/left-arrow.svg" width="20" class="ml-1" style="transform: rotate(180deg);" />
+                    Next<img src="images/up.svg" width="20" class="ml-1" style="transform: rotate(90deg);" />
                 </a>
             </div>
-            <div class="text-center my-3">
+            <?php if ($time != $now_month): ?>
+                <div class="card border-0">
+                    <div class="card-header border-bottom-0 p-0" id="headingForm">
+                        <h5 class="mb-0">
+                            <button class="btn w-100 bg-white text-left py-3" data-toggle="collapse" data-target="#collapseForm" aria-expanded="true" aria-controls="collapseForm">
+                                新增記錄
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="collapseForm" class="collapse" aria-labelledby="headingForm" data-parent="#accordion">
+                        <div class="card-body pt-0 px-0">
+            <?php endif; ?>
+            <div class="font-italic text-center mb-3">
                 ※原則上不是直接扣該帳戶的都要記<br>
-                ※固定花費不要記　※現金花費不要記
+                ※帳戶代收的錢要記<br>
+                ※固定花費、現金花費不要記
             </div>
-            <div class="shadow p-3 form-container">
+            <div class="shadow p-3 form-container mb-5">
                 <form id="insertForm" class="row">
                     <div class="form-group col-md-6">
                         <label for="amount">金額:</label>
@@ -95,9 +108,15 @@
                     <button type="button" class="btn btn-primary mb-1" data-target="insert" id="saveInsert">儲存</button>
                 </div>
             </div>
-            <div class="row mb-5">
+            <?php if ($time != $now_month): ?>
+                        </div>
+                    </div>
+                </div>
+            <?php endif; ?>
+            
+            <div class="row">
                 <?php foreach ($data['accounts'] as $account): ?>
-                    <div class="col-md-6 text-center mt-5">
+                    <div class="col-md-6 text-center mb-5">
                         <div class="table-title">
                             <div class="font-weight-bold align-self-center mb-2"><?php echo htmlspecialchars($account['name']); ?></div>
                             <div class="d-flex align-items-center mb-3 float-right">
@@ -224,8 +243,8 @@
                     <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-6">漂代付：<span style="color: red;"><?php echo $data['piao_records']['piao_paid']; ?></span></div>
-                                <div class="col-6">代付漂：<span style="color: red;"><?php echo $data['piao_records']['paid_piao']; ?></span></div>
+                                <div class="col-6">漂代付：<span style="color: red;"><?php echo $data['piao_records']['piao_paid'] ?? '0'; ?></span></div>
+                                <div class="col-6">代付漂：<span style="color: red;"><?php echo $data['piao_records']['paid_piao'] ?? '0'; ?></span></div>
                             </div>
                         </div>
                     </div>
