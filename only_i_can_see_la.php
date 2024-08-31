@@ -41,7 +41,7 @@ while ($account = $result->fetch_assoc()) {
 
     // 計算餘額差異
     $account_balance = getBalance($conn, $account_id, $time);
-    $next_month = DateTime::createFromFormat('Ym', $time)->modify('+1 month')->format('Ym');
+    $next_month = getNextmonth($time);
     $next_account_balance = getBalance($conn, $account_id, $next_month);
     if ($next_account_balance && $account_balance) {
         $balance_difference = $next_account_balance - $account_balance;

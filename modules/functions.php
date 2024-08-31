@@ -71,6 +71,12 @@ function getNow() {
     return $now->format('Y-m-d H:i:s');
 }
 
+function getNextmonth($time) {
+    $date = DateTime::createFromFormat('Ym', $time);
+    $date->setDate($date->format('Y'), $date->format('m'), 1);
+    return $date->modify('+1 month')->format('Ym');
+}
+
 function getBehalfSum($conn, $is_expense, $other_account, $time) {
     $sql = "SELECT SUM(amount) AS sum FROM expenses WHERE is_expense = ? AND other_account = ? AND expense_time = ?";
     $stmt = $conn->prepare($sql);
