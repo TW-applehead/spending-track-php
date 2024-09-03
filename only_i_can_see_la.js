@@ -145,6 +145,12 @@ $(document).ready(function() {
         }
     });
 
+    // 自動帶入備註
+    $('input[name="is_piao"]').on('change', function() {
+        let value = $(this).val();
+        $('input[name="description"]').val(value);
+    });
+
     // 動態修改編輯紀錄表單的選項
     $('#editForm input[name="account_id"]').on('change', function() {
         let account = $(this).val();
@@ -188,4 +194,19 @@ $(document).ready(function() {
             $('.back-to-top').hide();
         }
     };
+
+    // 雙擊移至畫面最下方
+    let lastClickTime = 0;
+    document.addEventListener('click', function () {
+        const currentTime = new Date().getTime();
+        const timeDifference = currentTime - lastClickTime;
+
+        if (timeDifference < 300) {
+            window.scrollTo({
+                top: document.body.scrollHeight,
+                behavior: 'smooth'
+            });
+        }
+        lastClickTime = currentTime;
+    });
 });
