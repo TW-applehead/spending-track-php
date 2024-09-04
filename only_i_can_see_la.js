@@ -1,4 +1,7 @@
 $(document).ready(function() {
+    let auth = $('#top').data('auth');
+    let finger_print = generateFingerprint();
+
     // 刪除紀錄
     $('.btn-del-record').on('click', function() {
         if (confirm("確定刪除?")) {
@@ -6,7 +9,9 @@ $(document).ready(function() {
             url: "delete.php",
             type: 'POST',
             data: {
-                id: $(this).data('id')
+                id: $(this).data('id'),
+                auth: auth,
+                finger_print: finger_print,
             },
             success: function(response) {
                 alert(response);
@@ -32,7 +37,9 @@ $(document).ready(function() {
             return false;
         }
 
-        let formData = $('#' + target + 'Form').serialize();
+        let formData = $('#' + target + 'Form').serializeArray();
+        formData.push({name: "auth", value: auth});
+        formData.push({name: "finger_print", value: finger_print});
         let url = target + ".php";
 
         $.ajax({
@@ -58,6 +65,8 @@ $(document).ready(function() {
                 account_id: $(this).data('account-id'),
                 time: $(this).data('time'),
                 balance: $('input[name="balance_' + $(this).data('account-id') + '"]').val(),
+                auth: auth,
+                finger_print: finger_print,
             },
             success: function(response) {
                 alert(response);
@@ -78,6 +87,8 @@ $(document).ready(function() {
             data: {
                 account_id: account_id,
                 retained_start: $('input[name="retained_start' + account_id + '"]').val(),
+                auth: auth,
+                finger_print: finger_print,
             },
             success: function(response) {
                 alert(response);
@@ -97,6 +108,8 @@ $(document).ready(function() {
             data: {
                 amount: $('#collapseChangeBase input[name="change_base_amount"]').val(),
                 account_id: $('#collapseChangeBase select[name="account_id"]').val(),
+                auth: auth,
+                finger_print: finger_print,
             },
             success: function(response) {
                 alert(response);
@@ -118,6 +131,8 @@ $(document).ready(function() {
                     time: $('#collapseMonthlySettle input[name="settle_time"]').val(),
                     food_expense: $('#monthly-expense-1').data('value'),
                     entertain_expense: $('#monthly-expense-2').data('value'),
+                    auth: auth,
+                    finger_print: finger_print,
                 },
                 success: function(response) {
                     alert(response);
@@ -209,4 +224,15 @@ $(document).ready(function() {
         }
         lastClickTime = currentTime;
     });
+
+    function generateFingerprint() {
+        const canvas = document.createElement('canvas');
+        const canvasHash = canvas.toDataURL();
+
+        const userAgent = navigator.userAgent;
+        const screenResolution = screen.width + 'x' + screen.height;
+        const timezone = new Date().getTimezoneOffset();
+        const languages = navigator.languages;
+        return userAgent + screenResolution + timezone + languages + canvasHash;
+    }
 });

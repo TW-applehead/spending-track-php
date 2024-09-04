@@ -15,19 +15,19 @@
     </head>
     <body>
         <div class="container">
-            <div id="top"></div>
-            <?php if (!empty($data['has_invasion']) && $data['check_ip']): ?>
+            <div id="top" data-auth="<?php echo isset($_REQUEST['auth']) ? $_REQUEST['auth'] : ""; ?>"></div>
+            <?php if (!empty($data['has_invasion'])): ?>
             <a href="#headingZero" class="btn text-danger mt-3">
                 <img src="images/warning.png" class="w-75" />
                 <h2>請注意入侵訊息</h2>
             </a>
             <?php endif; ?>
             <div class="justify-content-between align-items-center lead d-flex my-3">
-                <a href="?time=<?php echo $prev_month; ?>" class="btn d-flex align-items-center">
+                <a href="?time=<?php echo $prev_month; ?><?php echo isset($_REQUEST['auth']) ? '&auth=' . $_REQUEST['auth'] : ""; ?>" class="btn d-flex align-items-center">
                     <img src="images/up.svg" width="20" class="mr-1" style="transform: rotate(-90deg);" />Prev
                 </a>
                 <div class="font-weight-bold"><?php echo $time; ?>月帳單</div>
-                <a href="?time=<?php echo $next_month; ?>" class="btn d-flex align-items-center">
+                <a href="?time=<?php echo $next_month; ?><?php echo isset($_REQUEST['auth']) ? '&auth=' . $_REQUEST['auth'] : ""; ?>" class="btn d-flex align-items-center">
                     Next<img src="images/up.svg" width="20" class="ml-1" style="transform: rotate(90deg);" />
                 </a>
             </div>
@@ -220,7 +220,7 @@
             </div>
 
             <div id="accordion" class="mb-5">
-                <?php if (!empty($data['has_invasion']) && $data['check_ip']): ?>
+                <?php if (!empty($data['has_invasion'])): ?>
                 <div class="card">
                     <div class="card-header p-0" id="headingZero">
                         <h5 class="mb-0">

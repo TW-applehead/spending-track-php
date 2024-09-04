@@ -83,14 +83,12 @@ $stmt->close();
 
 // 檢查有沒有其他人使用我系統
 $has_invasion = checkHasInvasion($conn);
-$check_ip = checkUserIP($config, "登入了您的系統");
 
 $conn->close();
 return [
     'accounts' => $accounts,
     'piao_records' =>$piao_records,
     'has_invasion' => $has_invasion,
-    'check_ip' => $check_ip,
     'next_month' => $next_month,
     'prev_month' => $prev_month,
     'now_month' => $now_month,

@@ -37,13 +37,31 @@ function getUserIP() {
     return $ip;
 }
 
-function checkUserIP($config, $text = null) {
+function hashString($str) {
+    $hash = 0;
+    $length = strlen($str);
+    
+    for ($i = 0; $i < $length; $i++) {
+        $hash = (($hash << 5) - $hash) + ord($str[$i]);
+        $hash &= 0xFFFFFFFF; // 保持32位整數範圍
+    }
+    
+    if ($hash < 0) {
+        $hash = ~$hash + 1;
+    }
+    
+    return $hash;
+}
+
+function checkAuth($config, $finger_print, $auth, $text = null) {
     $ip = getUserIP();
-    if (in_array($ip, $config['ALLOWED_IP'])) {
+    $hash_string = hashString($finger_print);
+
+    if (in_array($hash_string, $config['ALLOWED_FINGERPRINT']) && $auth == $config['ALLOWED_PASSWORD']) {
         return true;
     } else {
         if (is_null($text)) {
-            $text = "入侵警報！[" . $ip . "] 嘗試更改你東西";
+            $text = "入侵警報！[" . $ip . ", " . $hash_string . "] 嘗試更改你東西";
         } else {
             $text = "[" . $ip . "] " . $text;
         }

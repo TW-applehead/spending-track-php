@@ -2,7 +2,7 @@
 $config = include_once('../config.php');
 require 'functions.php';
 
-if (!checkUserIP($config)) {
+if (!checkAuth($config, $_REQUEST['finger_print'], $_REQUEST['auth'])) {
     die($config['NOT_ALLOWED_TEXT']);
 }
 
