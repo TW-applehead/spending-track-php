@@ -1,26 +1,43 @@
 $(document).ready(function() {
     let auth = $('#top').data('auth');
     let finger_print = generateFingerprint();
+    $.ajax({
+        url: "modules/checkVisit.php",
+        type: 'GET',
+        data: {
+            auth: auth,
+            finger_print: finger_print,
+        },
+        dataType: 'json',
+        success: function(response) {
+            if (!response.status) {
+                $('a.page-button').attr('onclick', 'alert("'+ response.message +'"); return false;');
+            }
+        },
+        error: function(errors) {
+            console.error(errors);
+        }
+    });
 
     // 刪除紀錄
     $('.btn-del-record').on('click', function() {
         if (confirm("確定刪除?")) {
             $.ajax({
-            url: "delete.php",
-            type: 'POST',
-            data: {
-                id: $(this).data('id'),
-                auth: auth,
-                finger_print: finger_print,
-            },
-            success: function(response) {
-                alert(response);
-                location.reload();
-            },
-            error: function(errors) {
-                console.error(errors);
-            }
-        });
+                url: "delete.php",
+                type: 'POST',
+                data: {
+                    id: $(this).data('id'),
+                    auth: auth,
+                    finger_print: finger_print,
+                },
+                success: function(response) {
+                    alert(response);
+                    location.reload();
+                },
+                error: function(errors) {
+                    console.error(errors);
+                }
+            });
         } else {
             return;
         }

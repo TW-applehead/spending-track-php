@@ -23,11 +23,11 @@
             </a>
             <?php endif; ?>
             <div class="justify-content-between align-items-center lead d-flex my-3">
-                <a href="?time=<?php echo $prev_month; ?><?php echo isset($_REQUEST['auth']) ? '&auth=' . $_REQUEST['auth'] : ""; ?>" class="btn d-flex align-items-center">
+                <a href="?time=<?php echo $prev_month; ?><?php echo isset($_REQUEST['auth']) ? '&auth=' . $_REQUEST['auth'] : ""; ?>" class="btn page-button d-flex align-items-center">
                     <img src="images/up.svg" width="20" class="mr-1" style="transform: rotate(-90deg);" />Prev
                 </a>
                 <div class="font-weight-bold"><?php echo $time; ?>月帳單</div>
-                <a href="?time=<?php echo $next_month; ?><?php echo isset($_REQUEST['auth']) ? '&auth=' . $_REQUEST['auth'] : ""; ?>" class="btn d-flex align-items-center">
+                <a href="?time=<?php echo $next_month; ?><?php echo isset($_REQUEST['auth']) ? '&auth=' . $_REQUEST['auth'] : ""; ?>" class="btn page-button d-flex align-items-center">
                     Next<img src="images/up.svg" width="20" class="ml-1" style="transform: rotate(90deg);" />
                 </a>
             </div>

@@ -85,6 +85,7 @@ $stmt->close();
 $has_invasion = checkHasInvasion($conn);
 
 $conn->close();
+
 return [
     'accounts' => $accounts,
     'piao_records' =>$piao_records,
