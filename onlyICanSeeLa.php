@@ -100,12 +100,14 @@
                     </div>
 
                     <div class="form-group col-md-6">
-                        <label for="description" class="mr-3">說明:</label>
-                        <div class="form-check form-check-inline">
+                        <label for="description">說明</label>
+                        <div class="form-check form-check-inline float-right">
                             <input class="form-check-input" type="radio" name="is_piao" value="漂代付">
                             <label class="form-check-label mr-3">漂代付</label>
                             <input class="form-check-input" type="radio" name="is_piao" value="代付漂">
-                            <label class="form-check-label">代付漂</label>
+                            <label class="form-check-label mr-3">代付漂</label>
+                            <input class="form-check-input" type="radio" name="is_piao" value="漂代收">
+                            <label class="form-check-label">漂代收</label>
                         </div>
                         <input type="text" class="form-control" id="description" name="description" value="">
                     </div>

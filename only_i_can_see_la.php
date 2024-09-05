@@ -70,8 +70,8 @@ while ($account = $result->fetch_assoc()) {
 
 // 查詢piao紀錄
 $piao_sql = "SELECT 
-            SUM(CASE WHEN notes LIKE '代付漂%' THEN amount ELSE 0 END) AS paid_piao,
-            SUM(CASE WHEN notes LIKE '漂代付%' THEN amount ELSE 0 END) AS piao_paid
+            SUM(CASE WHEN notes LIKE '漂代付%' THEN amount ELSE 0 END) - SUM(CASE WHEN notes LIKE '漂代收%' THEN amount ELSE 0 END) AS piao_paid,
+            SUM(CASE WHEN notes LIKE '代付漂%' THEN amount ELSE 0 END) AS paid_piao
             FROM expenses
             WHERE expense_time = ?";
 $stmt = $conn->prepare($piao_sql);
