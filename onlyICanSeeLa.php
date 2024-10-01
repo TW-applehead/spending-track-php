@@ -51,12 +51,12 @@
             <div class="shadow p-3 form-container mb-5">
                 <form id="insertForm" class="row">
                     <div class="form-group col-md-6">
-                        <label for="amount">金額:</label>
+                        <label for="amount">金額：</label>
                         <input class="form-control" type="number" id="amount" name="amount" required>
                     </div>
 
                     <div class="form-group col-md-6">
-                        <label for="account">選擇帳戶</label>
+                        <label for="account">帳戶：</label>
                         <select class="form-control" id="account" name="account_id" required>
                             <option value="1">飲食</option>
                             <option value="2">娛樂</option>
@@ -65,7 +65,7 @@
 
                     <!-- 收入或支出選擇 -->
                     <div class="form-group col-md-6">
-                        <label>類型</label><br>
+                        <label>類型：</label><br>
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="is_expense" id="expense" value="1" checked>
                             <label class="form-check-label" for="expense">花費</label>
@@ -95,12 +95,12 @@
 
                     <!-- 時間 -->
                     <div class="form-group col-md-6">
-                        <label for="expense_time">時間</label>
+                        <label for="expense_time">時間：</label>
                         <input type="text" class="form-control" id="time" name="expense_time" value="<?php echo $time; ?>" required>
                     </div>
 
                     <div class="form-group col-md-6">
-                        <label for="description">說明</label>
+                        <label for="description">說明：</label>
                         <div class="form-check form-check-inline float-right">
                             <input class="form-check-input" type="radio" name="is_piao" value="漂代付">
                             <label class="form-check-label mr-3">漂代付</label>
@@ -127,7 +127,7 @@
                     <div class="col-md-6 text-center mb-5">
                         <div class="table-title">
                             <div class="font-weight-bold align-self-center mb-2"><?php echo htmlspecialchars($account['name']); ?></div>
-                            <div class="d-flex align-items-center mb-3 float-right">
+                            <div class="d-flex align-items-center mb-3 justify-content-end">
                                 <label for="balance_<?php echo htmlspecialchars($account['id']); ?>" class="mb-0 mr-2 small">發薪前餘額</label>
                                 <input type="number" style="width: 120px; height: 32px;"
                                 id="balance_<?php echo htmlspecialchars($account['id']); ?>" 
@@ -141,82 +141,90 @@
                                 </button>
                             </div>
                         </div>
-                        <table class="table table-striped shadow">
-                            <thead>
-                                <tr>
-                                    <th>金額</th>
-                                    <th class="text-left">說明</th>
-                                    <th>操作</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php if (count($account['expenses']) > 0): ?>
-                                    <?php foreach ($account['expenses'] as $expense): ?>
-                                        <tr>
-                                            <td style="color: <?php echo $expense['is_expense'] ? 'red' : 'green'; ?>">
-                                                <?php echo ($expense['amount']); ?>
-                                            </td>
-                                            <td class="text-left">
-                                                <?php echo htmlspecialchars($expense['notes']) . ' '; ?>
-                                                <?php echo $expense['other_account'] == 0 ? '' : '(代收付)'; ?>
-                                            </td>
-                                            <td>
-                                                <button class="btn btn-sm btn-edit-record"
-                                                        data-target="#record-modal" data-toggle="modal"
-                                                        data-account-id="<?php echo htmlspecialchars($account['id']); ?>"
-                                                        data-id="<?php echo htmlspecialchars($expense['id']); ?>"
-                                                        data-amount="<?php echo htmlspecialchars($expense['amount']); ?>"
-                                                        data-other-account="<?php echo htmlspecialchars($expense['other_account']); ?>"
-                                                        data-is-expense="<?php echo htmlspecialchars($expense['is_expense']); ?>"
-                                                        data-notes="<?php echo htmlspecialchars($expense['notes']); ?>"
-                                                        data-expense-time="<?php echo htmlspecialchars($expense['expense_time']); ?>">
-                                                    <img src="images/edit.svg" width="20" />
-                                                </button>
-                                                <button class="btn btn-sm btn-del-record"
-                                                        data-id="<?php echo htmlspecialchars($expense['id']); ?>">
-                                                    <img src="images/delete.svg" width="22" />
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    <?php endforeach; ?>
-                                <?php else: ?>
+                        <div class="table-content shadow">
+                            <table class="table thead mb-0">
+                                <thead>
                                     <tr>
-                                        <td colspan="3">無記錄</td>
+                                        <th style="width: 16%;">金額</th>
+                                        <th class="text-left">說明</th>
+                                        <th style="width: 30%;">操作</th>
                                     </tr>
-                                <?php endif; ?>
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <td colspan="2" class="border-bottom-0 text-right"><?php echo $account['balance_difference'] ? '本月花費' : '(尚無下個月餘額)'; ?></td>
-                                    <td class="border-bottom-0 text-left">
-                                        <span id="monthly-expense-<?php echo $account['id']; ?>" data-value="<?php echo $account['quota'] ?>"
-                                              data-balance-difference="<?php echo $account['balance_difference']; ?>"
-                                              style="color: <?php echo $account['quota'] >= 0 ? 'green' : 'red'; ?>;">
-                                            <?php echo abs($account['quota']) ?>
-                                        </span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2" class="border-top-0 pt-0 pb-3">
-                                        <div class="justify-content-end align-items-center d-flex">
-                                            <input type="text" style="width: 90px; height: 26px; border-radius: unset; padding-bottom: 2px;"
-                                                id="retained-start<?php echo htmlspecialchars($account['id']); ?>" 
-                                                name="retained_start<?php echo htmlspecialchars($account['id']); ?>" 
-                                                value="<?php echo $account['retained_start'] ?>" 
-                                                class="form-control border-left-0 border-top-0 border-right-0 pt-0 pl-2 pr-3">
-                                            <button class="btn p-0 update-retained-start" style="margin-left: -20px; margin-top: -4px;"
-                                                    data-account-id="<?php echo htmlspecialchars($account['id']); ?>">
-                                                <img src="images/update.svg" width="20" />
-                                            </button>
-                                            <div class="ml-2">至今累積利差</div>
-                                        </div>
-                                    </td>
-                                    <td class="border-top-0 pt-0 pb-3 text-left">
-                                        <span style="color: <?php echo $account['retained_amount'] >= 0 ? 'green' : 'red'; ?>;"><?php echo abs($account['retained_amount']) ?></span>
-                                    </td>
-                                </tr>
-                            </tfoot>
-                        </table>
+                                </thead>
+                            </table>
+                            <div class="tbody" <?php echo $time != $now_month ? 'style="display: none;"' : ''; ?>>
+                                <table class="table table-striped mb-0">
+                                    <tbody>
+                                        <?php if (count($account['expenses']) > 0): ?>
+                                            <?php foreach ($account['expenses'] as $expense): ?>
+                                                <tr>
+                                                    <td style="color: <?php echo $expense['is_expense'] ? 'red' : 'green'; ?>; width: 16%;">
+                                                        <?php echo ($expense['amount']); ?>
+                                                    </td>
+                                                    <td class="text-left">
+                                                        <?php echo htmlspecialchars($expense['notes']) . ' '; ?>
+                                                        <?php echo $expense['other_account'] == 0 ? '' : '(代收付)'; ?>
+                                                    </td>
+                                                    <td style="width: 30%;">
+                                                        <button class="btn btn-sm btn-edit-record"
+                                                                data-target="#record-modal" data-toggle="modal"
+                                                                data-account-id="<?php echo htmlspecialchars($account['id']); ?>"
+                                                                data-id="<?php echo htmlspecialchars($expense['id']); ?>"
+                                                                data-amount="<?php echo htmlspecialchars($expense['amount']); ?>"
+                                                                data-other-account="<?php echo htmlspecialchars($expense['other_account']); ?>"
+                                                                data-is-expense="<?php echo htmlspecialchars($expense['is_expense']); ?>"
+                                                                data-notes="<?php echo htmlspecialchars($expense['notes']); ?>"
+                                                                data-expense-time="<?php echo htmlspecialchars($expense['expense_time']); ?>">
+                                                            <img src="images/edit.svg" width="20" />
+                                                        </button>
+                                                        <button class="btn btn-sm btn-del-record"
+                                                                data-id="<?php echo htmlspecialchars($expense['id']); ?>">
+                                                            <img src="images/delete.svg" width="22" />
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            <?php endforeach; ?>
+                                        <?php else: ?>
+                                            <tr>
+                                                <td colspan="3">無記錄</td>
+                                            </tr>
+                                        <?php endif; ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <table class="table tfoot">
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="2" class="border-bottom-0 text-right"><?php echo $account['balance_difference'] ? '本月花費' : '(尚無下個月餘額)'; ?></td>
+                                        <td style="width: 28%;" class="border-bottom-0 text-left">
+                                            <span id="monthly-expense-<?php echo $account['id']; ?>" data-value="<?php echo $account['quota'] ?>"
+                                                data-balance-difference="<?php echo $account['balance_difference']; ?>"
+                                                style="color: <?php echo $account['quota'] >= 0 ? 'green' : 'red'; ?>;">
+                                                <?php echo abs($account['quota']) ?>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" class="border-top-0 pt-0 pb-3">
+                                            <div class="justify-content-end align-items-center d-flex">
+                                                <input type="text" style="width: 90px; height: 26px; border-radius: unset; padding-bottom: 2px;"
+                                                    id="retained-start<?php echo htmlspecialchars($account['id']); ?>" 
+                                                    name="retained_start<?php echo htmlspecialchars($account['id']); ?>" 
+                                                    value="<?php echo $account['retained_start'] ?>" 
+                                                    class="form-control border-left-0 border-top-0 border-right-0 pt-0 pl-2 pr-3">
+                                                <button class="btn p-0 update-retained-start" style="margin-left: -20px; margin-top: -4px;"
+                                                        data-account-id="<?php echo htmlspecialchars($account['id']); ?>">
+                                                    <img src="images/update.svg" width="20" />
+                                                </button>
+                                                <div class="ml-2">至今累積利差</div>
+                                            </div>
+                                        </td>
+                                        <td style="width: 28%;" class="border-top-0 pt-0 pb-3 text-left">
+                                            <span style="color: <?php echo $account['retained_amount'] >= 0 ? 'green' : 'red'; ?>;"><?php echo abs($account['retained_amount']) ?></span>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
                     </div>
                 <?php endforeach; ?>
             </div>

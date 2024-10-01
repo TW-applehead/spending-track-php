@@ -6,7 +6,7 @@ html {
 }
 .table-title,
 .form-container,
-table.table {
+.table-content {
     max-width: 95%;
     margin: auto;
 }

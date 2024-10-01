@@ -252,4 +252,9 @@ $(document).ready(function() {
         const languages = navigator.languages;
         return userAgent + screenResolution + timezone + languages + canvasHash;
     }
+
+    // 收起花費紀錄
+    $('.thead').on('click', function() {
+        $(this).next('.tbody').slideToggle();
+    });
 });
