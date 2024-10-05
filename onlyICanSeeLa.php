@@ -160,9 +160,13 @@
                                                     <td style="color: <?php echo $expense['is_expense'] ? 'red' : 'green'; ?>; width: 16%;">
                                                         <?php echo ($expense['amount']); ?>
                                                     </td>
-                                                    <td class="text-left">
+                                                    <td class="text-left expense-note" tabindex="0">
                                                         <?php echo htmlspecialchars($expense['notes']) . ' '; ?>
                                                         <?php echo $expense['other_account'] == 0 ? '' : '(代收付)'; ?>
+                                                        <div class="time-info">
+                                                            <?php echo $expense['created_time']; ?>
+                                                            <?php echo $expense['edited'] ? ' (' . $expense['updated_time'] . ' 編輯)' : ''; ?>
+                                                        </div>
                                                     </td>
                                                     <td style="width: 30%;">
                                                         <button class="btn btn-sm btn-edit-record"

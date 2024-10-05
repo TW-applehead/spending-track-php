@@ -120,7 +120,11 @@ function getBalance($conn, $account_id, $time) {
 }
 
 function getExpenses($conn, $account_id, $time) {
-    $sql = "SELECT * FROM expenses WHERE account_id = ? AND expense_time = ?";
+    $sql = "SELECT id, amount, account_id, is_expense, other_account, expense_time, notes, " .
+            "DATE_FORMAT(created_at, '%Y-%m-%d') AS `created_time`, " .
+            "DATE_FORMAT(updated_at, '%Y-%m-%d') AS `updated_time`, " .
+            "CASE WHEN created_at <> updated_at THEN 1 ELSE 0 END AS edited " .
+            "FROM expenses WHERE account_id = ? AND expense_time = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("is", $account_id, $time);
     $stmt->execute();

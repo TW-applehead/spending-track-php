@@ -198,6 +198,11 @@ $(document).ready(function() {
         }
     });
 
+    // 顯示紀錄的日期
+    $('.expense-note').on('click', function() {
+        $(this).focus();
+    });
+
     // 顯示編輯視窗
     $('.btn-edit-record').on('click', function() {
         let id = $(this).data('id');
