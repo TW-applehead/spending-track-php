@@ -4,6 +4,9 @@ html {
 .table-title {
     font-size: 1.2rem;
 }
+.table-title p:hover {
+    cursor: pointer;
+}
 .table-title,
 .form-container,
 .table-content {

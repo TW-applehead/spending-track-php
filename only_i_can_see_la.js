@@ -262,4 +262,13 @@ $(document).ready(function() {
     $('.thead').on('click', function() {
         $(this).next('.tbody').slideToggle();
     });
+
+    // 收起花費紀錄
+    $('.table-title p').on('click', function() {
+        $(this).parent().next('.table-content').find('.tfoot')[0].scrollIntoView({
+            behavior: 'smooth', // 滑動效果
+            block: 'end',       // 靠下對齊
+            inline: 'nearest'   // 就近橫向對齊
+        });
+    });
 });

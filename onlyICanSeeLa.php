@@ -126,7 +126,7 @@
                 <?php foreach ($data['accounts'] as $account): ?>
                     <div class="col-md-6 text-center mb-5">
                         <div class="table-title">
-                            <div class="font-weight-bold align-self-center mb-2"><?php echo htmlspecialchars($account['name']); ?></div>
+                            <p class="font-weight-bold align-self-center mb-2"><?php echo htmlspecialchars($account['name']); ?></p>
                             <div class="d-flex align-items-center mb-3 justify-content-end">
                                 <label for="balance_<?php echo htmlspecialchars($account['id']); ?>" class="mb-0 mr-2 small">發薪前餘額</label>
                                 <input type="number" style="width: 120px; height: 32px;"
