@@ -263,12 +263,13 @@ $(document).ready(function() {
         $(this).next('.tbody').slideToggle();
     });
 
-    // 收起花費紀錄
+    // 點擊標題跳到累積金額
     $('.table-title p').on('click', function() {
-        $(this).parent().next('.table-content').find('.tfoot')[0].scrollIntoView({
-            behavior: 'smooth', // 滑動效果
-            block: 'end',       // 靠下對齊
-            inline: 'nearest'   // 就近橫向對齊
-        });
+        let targetPosition = $(this).parent().next('.table-content').find('.tfoot').offset().top;
+        let offset = window.innerHeight * 0.7;
+
+        $('html, body').animate({
+            scrollTop: targetPosition - offset
+        }, 200);
     });
 });
