@@ -52,7 +52,7 @@
                 <form id="insertForm" class="row">
                     <div class="form-group col-md-6">
                         <label for="amount">金額：</label>
-                        <input class="form-control" type="number" id="amount" name="amount" required>
+                        <input class="form-control amount" type="text" id="amount" name="amount" required>
                     </div>
 
                     <div class="form-group col-md-6">
@@ -129,7 +129,7 @@
                             <p class="font-weight-bold align-self-center mb-2"><?php echo htmlspecialchars($account['name']); ?></p>
                             <div class="d-flex align-items-center mb-3 justify-content-end">
                                 <label for="balance_<?php echo htmlspecialchars($account['id']); ?>" class="mb-0 mr-2 small">發薪前餘額</label>
-                                <input type="number" style="width: 120px; height: 32px;"
+                                <input type="text" class="amount" style="width: 120px; height: 32px;"
                                 id="balance_<?php echo htmlspecialchars($account['id']); ?>" 
                                 name="balance_<?php echo htmlspecialchars($account['id']); ?>" 
                                 value="<?php echo htmlspecialchars($account['account_balance'] ?? ''); ?>" 
@@ -303,7 +303,7 @@
                     <div id="collapseChangeBase" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
                         <div class="card-body text-center">
                             <div class="d-flex justify-content-center">
-                                <input type="number" id="change-base-amount" name="change_base_amount" class="form-control w-50 mr-1" value="10000" step="100">
+                                <input type="text" id="change-base-amount" name="change_base_amount" class="form-control amount w-50 mr-1" value="10000" step="100">
                                 <select class="form-control w-auto mr-1" id="change-account" name="account_id" required>
                                     <option value="1">飲食</option>
                                     <option value="2" selected="selected">娛樂</option>
@@ -331,7 +331,7 @@
                             <form id="editForm">
                                 <div class="mb-3">
                                     <label for="editAmount" class="form-label">金額</label>
-                                    <input type="number" class="form-control" id="editAmount" name="amount">
+                                    <input type="text" class="form-control amount" id="editAmount" name="amount">
                                 </div>
                                 <div class="mb-3 d-flex">
                                     <label for="account_id" class="form-label">帳戶</label>

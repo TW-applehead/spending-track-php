@@ -49,8 +49,8 @@ $(document).ready(function() {
         if ($('#' + target + 'Form input[name="amount"]').val() < 0) {
             alert("金額是負的是怎樣? 重寫");
             return false;
-        } else if ($('#' + target + 'Form input[name="amount"]').val() == 0) {
-            alert("金額是0還紀錄幹嘛? 重寫");
+        } else if (!/^\d+(\.\d+)?$/.test($('#' + target + 'Form input[name="amount"]').val())) {
+            alert("金額請輸入有效數字");
             return false;
         }
 
@@ -247,17 +247,6 @@ $(document).ready(function() {
         lastClickTime = currentTime;
     });
 
-    function generateFingerprint() {
-        const canvas = document.createElement('canvas');
-        const canvasHash = canvas.toDataURL();
-
-        const userAgent = navigator.userAgent;
-        const screenResolution = screen.width + 'x' + screen.height;
-        const timezone = new Date().getTimezoneOffset();
-        const languages = navigator.languages;
-        return userAgent + screenResolution + timezone + languages + canvasHash;
-    }
-
     // 收起花費紀錄
     $('.thead').on('click', function() {
         $(this).next('.tbody').slideToggle();
@@ -272,4 +261,26 @@ $(document).ready(function() {
             scrollTop: targetPosition - offset
         }, 200);
     });
+
+    // 讓金額可以做計算
+    $('input.amount').on('change', function() {
+        const input = $(this).val();
+        try {
+            const result = eval(input);
+            $(this).val(result);
+        } catch (error) {
+            $(this).val("無效的輸入");
+        }
+    });
+
+    function generateFingerprint() {
+        const canvas = document.createElement('canvas');
+        const canvasHash = canvas.toDataURL();
+
+        const userAgent = navigator.userAgent;
+        const screenResolution = screen.width + 'x' + screen.height;
+        const timezone = new Date().getTimezoneOffset();
+        const languages = navigator.languages;
+        return userAgent + screenResolution + timezone + languages + canvasHash;
+    }
 });
