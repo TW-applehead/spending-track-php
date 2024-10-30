@@ -266,8 +266,18 @@
                                 <div class="col-12 font-italic text-center mb-3">
                                     ※代付漂的現金要記，手動扣在領錢記錄裡
                                 </div>
-                                <div class="col-6">漂代付：<span style="color: red;"><?php echo $data['piao_records']['piao_paid'] ?? '0'; ?></span></div>
-                                <div class="col-6">代付漂：<span style="color: red;"><?php echo $data['piao_records']['paid_piao'] ?? '0'; ?></span></div>
+                                <?php if ($data['piao_records']['piao_paid'] && $data['piao_records']['piao_paid'] < 0): ?>
+                                    <div class="col-6">
+                                        漂代付：<span style="color: green;"><?php echo abs($data['piao_records']['piao_paid']); ?></span>
+                                    </div>
+                                <?php else: ?>
+                                    <div class="col-6">
+                                        漂代付：<span style="color: red;"><?php echo $data['piao_records']['piao_paid'] ? '-' . $data['piao_records']['piao_paid'] : '0'; ?></span>
+                                    </div>
+                                <?php endif; ?>
+                                <div class="col-6">
+                                    代付漂：<span style="color: red;"><?php echo $data['piao_records']['paid_piao'] ? '-' . $data['piao_records']['paid_piao'] : '0'; ?></span>
+                                </div>
                             </div>
                         </div>
                     </div>
