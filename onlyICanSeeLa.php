@@ -323,6 +323,29 @@
                         </div>
                     </div>
                 </div>
+                <div class="card">
+                    <div class="card-header p-0" id="headingFour">
+                        <h5 class="mb-0">
+                            <button class="btn w-100 text-left py-3" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                修改每月帳戶扣打
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
+                        <div class="card-body text-center">
+                            <div class="row">
+                            <?php foreach ($data['accounts'] as $account): ?>
+                                <div class="col-6">
+                                    <?php echo $account['name']; ?>：
+                                    <input type="text" id="change-allowance-<?php echo $account['id']; ?>" name="change_allowance_<?php echo $account['id']; ?>"
+                                            class="form-control amount w-100" value="<?php echo $account['monthly_allowance']; ?>">
+                                </div>
+                            <?php endforeach; ?>
+                            </div>
+                            <button type="button" class="btn btn-dark btn-sm change-allowance mt-3">更新</button>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <a href="#top" class="back-to-top"><img src="images/up.svg" width="40" /></a>

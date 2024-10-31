@@ -165,6 +165,27 @@ $(document).ready(function() {
         }
     });
 
+    // 更新月扣打
+    $('.change-allowance').on('click', function() {
+        $.ajax({
+            url: "modules/updateMonthlyAllowance.php",
+            type: 'POST',
+            data: {
+                food_allowance: $('#change-allowance-1').val(),
+                entertain_allowance: $('#change-allowance-2').val(),
+                auth: auth,
+                finger_print: finger_print,
+            },
+            success: function(response) {
+                alert(response);
+                location.reload();
+            },
+            error: function(errors) {
+                console.error(errors);
+            }
+        });
+    });
+
     // 動態修改新增紀錄表單的選項
     $('#account').on('change', function() {
         let account = $(this).val();
