@@ -12,4 +12,4 @@ jobs:
     steps:
       - name: Call Spending Track API
         run: |
-          curl -X GET "http://spending-track.infinityfreeapp.com/api/reminder.php"
+          curl -v -X GET "http://spending-track.infinityfreeapp.com/api/reminder.php"
