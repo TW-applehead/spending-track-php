@@ -2,15 +2,14 @@ name: Daily Reminder
 
 on:
   schedule:
-    # 每天晚上 15:59 (台北時間23:59)
-    - cron: "20 04 * * *"
+    - cron: "20 04 * * *" # 每天晚上 15:59 (台北時間23:59)
+  workflow_dispatch: # 新增手動觸發功能
 
 jobs:
   call-api:
     runs-on: ubuntu-latest
 
     steps:
-      # 使用 curl 發送 HTTP 請求到指定 API
-      - name: Call API
+      - name: Call Spending Track API
         run: |
           curl -X GET "http://spending-track.infinityfreeapp.com/api/reminder.php"
