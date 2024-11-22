@@ -2,7 +2,7 @@ name: Daily Reminder
 
 on:
   schedule:
-    - cron: "20 06 * * *" # 每天晚上 15:59 (台北時間23:59)
+    - cron: "39 15 * * *" # 台北時間 23:59 執行 (發現不明原因會晚20分鐘執行，所以設定UTC時間15:39)
   workflow_dispatch: # 新增手動觸發功能
 
 jobs:
