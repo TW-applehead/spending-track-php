@@ -3,7 +3,7 @@ name: Daily Reminder
 on:
   schedule:
     # 每天晚上 15:59 (台北時間23:59)
-    - cron: "25 16 * * *"
+    - cron: "20 04 * * *"
 
 jobs:
   call-api:
